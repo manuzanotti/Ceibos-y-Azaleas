@@ -172,7 +172,94 @@
                 <p class="footer-copy">&copy; 2026 Ceibos y Azaleas. Todos los derechos reservados.</p>
             </div>
         </footer>
-    
+        <!-- Modal de Reserva -->
+        <div class="modal-overlay" id="modalReserva">
+            <div class="modal-card">
+                <button class="modal-close" id="btnCloseModal">&times;</button>
+                
+                <h2 class="modal-title">Confirmar Su Reserva</h2>
+                <p class="modal-subtitle">Ceibos y Azaleas • Complejo de Cabañas</p>
+
+                <form id="formReserva">
+                    <div class="modal-grid">
+                        <!-- Resumen Cabaña -->
+                        <div class="modal-cabana-info">
+                            <img id="modalCabanaImg" src="../images/cabania-modelo.jpg" alt="Cabaña seleccionada">
+                            <div class="cabana-info-text">
+                                <h3 id="modalCabanaNombre">Cabaña Los Ceibos</h3>
+                                <p id="modalCabanaCapacidad">Capacidad: 4-5 personas • Parrilla, Wi-Fi</p>
+                                <span class="precio-tag">$<span id="modalCabanaPrecio">120000</span> / noche</span>
+                            </div>
+                        </div>
+
+                        <!-- Resumen Estadía / Fechas -->
+                        <div class="modal-resumen-estadia">
+                            <div class="form-row-dates">
+                                <div class="form-group">
+                                    <label for="fechaCheckIn">Fecha de Check-in</label>
+                                    <input type="date" id="fechaCheckIn" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fechaCheckOut">Fecha de Check-out</label>
+                                    <input type="date" id="fechaCheckOut" required>
+                                </div>
+                            </div>
+
+                            <div class="resumen-calculo">
+                                <p>Estadía: <strong id="cantNoches">0</strong> noches</p>
+                                <p class="precio-total">Total: $<span id="precioTotalCalculado">0</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulario Datos de Contacto & Huéspedes -->
+                    <div class="modal-form-details">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cantAdultos">Adultos</label>
+                                <select id="cantAdultos">
+                                    <option value="1">1 Adulto</option>
+                                    <option value="2" selected>2 Adultos</option>
+                                    <option value="3">3 Adultos</option>
+                                    <option value="4">4 Adultos</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="cantNinos">Niños (2-12 años)</label>
+                                <select id="cantNinos">
+                                    <option value="0" selected>0 Niños</option>
+                                    <option value="1">1 Niño</option>
+                                    <option value="2">2 Niños</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reservaNombre">Nombre Completo</label>
+                            <input type="text" id="reservaNombre" placeholder="Tu Nombre" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reservaEmail">Correo Electrónico</label>
+                                <input type="email" id="reservaEmail" placeholder="ejemplo@correo.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reservaTelefono">Teléfono / WhatsApp</label>
+                                <input type="tel" id="reservaTelefono" placeholder="+54 9 11 1234 5678" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="modal-error-msg" class="error-message"></div>
+
+                    <div class="modal-actions">
+                        <button type="submit" class="btn-submit-reserva">Confirmar Reserva</button>
+                        <button type="button" class="btn-cancel-reserva" id="btnCancelReserva">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     <script src="../js/dashboard.js"></script>
 </body>
 </html>
