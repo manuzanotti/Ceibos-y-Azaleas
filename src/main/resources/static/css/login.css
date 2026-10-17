@@ -1,0 +1,139 @@
+/* Restablecimiento básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Imagen de fondo desde static/images/cabanias-fondo.jpg */
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), 
+                url('../images/Login-image.jpg') no-repeat center center/cover;
+    background-attachment: fixed;
+}
+
+/* Contenedor principal */
+.login-container {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+}
+
+/* Tarjeta del formulario */
+.login-card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    padding: 40px 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Encabezado de la marca */
+.brand-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.brand-header h2 {
+    color: #2c4c3b; /* Verde bosque */
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.brand-header p {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+.login-card h3 {
+    text-align: center;
+    color: #1f2937;
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* Campos de entrada */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #374151;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background-color: #f9fafb;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #2c4c3b;
+    box-shadow: 0 0 0 3px rgba(44, 76, 59, 0.2);
+    background-color: #ffffff;
+}
+
+/* Mensaje de error dinámico */
+.error-message {
+    color: #dc2626;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    text-align: center;
+    display: none; /* Se activa con JS cuando falla el login */
+}
+
+/* Botón de envío */
+.btn-submit {
+    width: 100%;
+    padding: 13px;
+    background-color: #2c4c3b;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-submit:hover {
+    background-color: #1e3529;
+}
+
+.btn-submit:active {
+    transform: scale(0.99);
+}
+
+/* Pie de tarjeta / enlace a registro */
+.login-footer {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #4b5563;
+}
+
+.login-footer a {
+    color: #2c4c3b;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
