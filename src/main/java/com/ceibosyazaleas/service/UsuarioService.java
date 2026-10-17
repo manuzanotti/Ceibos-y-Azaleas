@@ -18,10 +18,14 @@ public class UsuarioService {
 
 
     public Usuario registrarUsuario(Usuario usuario){
-        Optional<Usuario> nuevoUsuario = usuarioRepository.findByEmail(usuario.getEmail());
-        if(nuevoUsuario.isPresent()){
+        if(usuarioRepository.findByEmail(usuario.getEmail()).isPresent()){
             throw new RuntimeException("Ya existe una cuenta vinculada a ese email.");
         }
+
+        if(usuarioRepository.findByDni(usuario.getDni()).isPresent()){
+            throw new RuntimeException("Ya existe una cuenta vinculada con ese numero de documento");
+        }
+
 
         return usuarioRepository.save(usuario);
     }
