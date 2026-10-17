@@ -1,0 +1,226 @@
+/* Importar tipografía elegante desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500&family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Reset y estilos globales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* --------------------------------------------------
+   1. BARRA DE NAVEGACIÓN SUPERIOR
+-------------------------------------------------- */
+.navbar {
+    width: 100%;
+    height: 70px;
+    background-color: #2c4c3b; /* Verde bosque característico */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.nav-brand span {
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links a {
+    color: #e5e7eb;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 400;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    padding: 6px 0;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #ffffff;
+    border-bottom: 2px solid #84a98c;
+}
+
+/* Menú de Usuario en Navbar */
+.user-menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.user-menu-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.user-menu-btn i {
+    font-size: 1.2rem;
+}
+
+#userNameDisplay {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* --------------------------------------------------
+   2. MENÚ DESPLEGABLE LATERAL (SIDEBAR)
+-------------------------------------------------- */
+.sidebar-menu {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    width: 240px;
+    background: rgba(30, 53, 41, 0.92); /* Verde oscuro traslúcido */
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 20px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+/* Clase para abrir la sidebar con JS */
+.sidebar-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.sidebar-menu ul {
+    list-style: none;
+}
+
+.sidebar-menu ul li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    color: #f3f4f6;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-menu ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
+.sidebar-menu ul li.divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.15);
+    margin: 10px 0;
+}
+
+/* Overlay para cerrar al hacer clic afuera */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2);
+    display: none;
+    z-index: 999;
+}
+
+.menu-overlay.active {
+    display: block;
+}
+
+/* --------------------------------------------------
+   3. SECCIÓN PRINCIPAL (HERO)
+-------------------------------------------------- */
+.hero-section {
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 70px;
+    background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.35)),
+                url('../images/Login-image.jpg') no-repeat center center/cover;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 850px;
+    padding: 0 20px;
+    color: #ffffff;
+}
+
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.2rem;
+    font-weight: 600;
+    font-style: italic;
+    color: #f5ebe0;
+    text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.6);
+    margin-bottom: 5px;
+}
+
+.hero-subtitle {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: #ffffff;
+    text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.6);
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    font-weight: 300;
+    color: #f9fafb;
+    text-shadow: 1px 2px 10px rgba(0, 0, 0, 0.7);
+    margin-bottom: 35px;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 15px 35px;
+    background-color: #2c4c3b;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.05rem;
+    font-weight: 500;
+    border-radius: 30px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: #1e3529;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
