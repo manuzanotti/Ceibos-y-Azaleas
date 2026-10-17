@@ -16,6 +16,17 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    public Usuario validarUsuario(String email, String password){
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                    .orElseThrow(()-> new RuntimeException ("Credenciales Incorrectas")) ;
+
+        if(!usuario.getPassword().equalsIgnoreCase(password)){
+            throw new RuntimeException("Credenciales incorrectas");
+        }
+
+        return usuario;
+
+    }
 
     public Usuario registrarUsuario(Usuario usuario){
         if(usuarioRepository.findByEmail(usuario.getEmail()).isPresent()){
