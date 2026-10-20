@@ -24,16 +24,13 @@ public class CabaniaService {
         return cabaniaRepository.findAllByActivaTrue();
     }
 
-    public Optional <Cabania> mostrarCabaniaPorNombre(String nombre){
-        return cabaniaRepository.findByName(nombre);
+    public Optional <Cabania> obtenerCabaniaPorId(Long id){
+        return cabaniaRepository.findById(id);
     }
 
-    public Optional <Cabania> mostrarCabaniaPorCapacidad(int capacidad){
-        return cabaniaRepository.findByCap(capacidad);
+    public Cabania registrarCabania(Cabania cabania){
+        return cabaniaRepository.save(cabania);
     }
-
-
-
 
 
 
