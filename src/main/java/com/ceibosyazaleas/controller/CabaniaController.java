@@ -1,17 +1,25 @@
 package com.ceibosyazaleas.controller;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.ceibosyazaleas.model.Cabania;
 import com.ceibosyazaleas.service.CabaniaService;
 
+import jakarta.validation.Valid;
 
-@Controller 
+
+
+@RestController 
 @RequestMapping ("/api/cabanias")
 public class CabaniaController {
+   
     private CabaniaService cabaniaService;
 
     public CabaniaController(CabaniaService cabaniaService){
@@ -27,13 +35,21 @@ public class CabaniaController {
 
     @GetMapping("/activas")
     public ResponseEntity<?> mostrarCabaniasActivas(){
-        try {
+       
            return ResponseEntity.ok(cabaniaService.mostrarCabaniasDisponibles());     
-        } catch (NullPointerException e) {
+       
+    }
+
+
+    @PostMapping("/registrar")
+    public ResponseEntity<?> registrarCabania(@Valid @RequestBody Cabania cabania){
+        try {
+            Cabania nuevaCabania = cabaniaService.registrarCabania(cabania);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevaCabania);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
 
 
 
