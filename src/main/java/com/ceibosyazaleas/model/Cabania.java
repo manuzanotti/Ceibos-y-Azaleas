@@ -29,29 +29,31 @@ public class Cabania {
     @Column (nullable = false)
     private int capacidad;
 
+    @NotNull (message = "El precio por noche es obligatorio")
+    @Column (nullable = false)
+    private Double precioPorNoche;
+
     @Column (nullable = false)
     private String comodidades;
 
-    @NotNull (message = "El precio por noche es obligatorio")
-    @Column (nullable = false)
-    private double precioPorNoche;
 
     @Column (nullable = false)
     private boolean activa;
 
 
     public Cabania(){
-
+        this.activa = true;
     }
 
 
-    public Cabania(String nombre, String descripcion, int capacidad, String comodidades, double precioPorNoche, boolean activa) {
+    public Cabania(String nombre, String descripcion, int capacidad, String comodidades, double precioPorNoche) {
+        this();
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.capacidad = capacidad;
         this.comodidades = comodidades;
         this.precioPorNoche = precioPorNoche;
-        this.activa = activa;
+        
     }
 
 
@@ -80,7 +82,7 @@ public class Cabania {
     }
 
 
-    public double getPrecioPorNoche() {
+    public Double getPrecioPorNoche() {
         return precioPorNoche;
     }
 
@@ -115,7 +117,7 @@ public class Cabania {
     }
 
 
-    public void setPrecioPorNoche(double precioPorNoche) {
+    public void setPrecioPorNoche(Double precioPorNoche) {
         this.precioPorNoche = precioPorNoche;
     }
 
