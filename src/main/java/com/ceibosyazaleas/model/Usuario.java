@@ -2,6 +2,8 @@ package com.ceibosyazaleas.model;
 
 
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,6 +35,13 @@ public class Usuario {
     @Column (unique = true,  nullable = false)
     private String dni;
     
+    @Column (name = "fecha_nacimiento")
+    private LocalDate fechaNacimiento;
+
+
+    private String telefono;
+
+
     @NotBlank (message = "El Email no puede estar vacio.")
     @Column (unique = true, nullable = false)
     @Email (message = "Debe ingresar un email valido.")
@@ -41,6 +50,7 @@ public class Usuario {
     @NotBlank (message = "Debe ingresar una contraseña.")
     @Column (nullable = false)
     private String password;
+    
     
     @Enumerated(EnumType.STRING)
     @Column (nullable = false)
@@ -53,12 +63,14 @@ public class Usuario {
 
 
     
-    public Usuario(String nombre, String apellido, String dni, String email, String password){
+    public Usuario(String nombre, String apellido, String dni, LocalDate fechaNacimiento, String telefono, String email, String password){
         this();
         
         this.setNombre(nombre);
         this.setApellido(apellido);
         this.setDni(dni);
+        this.setFechaNacimiento(fechaNacimiento);
+        this.setTelefono(telefono);
         this.setEmail(email);
         this.setPassword(password);
       
@@ -87,6 +99,18 @@ public class Usuario {
 
     public String getDni() {
         return dni;
+    }
+
+
+
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+
+
+    public String getTelefono() {
+        return telefono;
     }
 
 
@@ -129,6 +153,18 @@ public class Usuario {
 
     public void setDni(String dni) {
         this.dni = dni;
+    }
+
+
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
 
