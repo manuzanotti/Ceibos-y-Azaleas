@@ -1,6 +1,7 @@
 package com.ceibosyazaleas.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,6 +26,7 @@ public class Reserva {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Relación ManyToOne con la entidad Cabania
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cabania_id", nullable = false)
     private Cabania cabania;
@@ -61,10 +63,12 @@ public class Reserva {
     @Column(nullable = false)
     private EstadoReserva estado;
 
+    private LocalDateTime fechaCreacion;
 
 
     public Reserva (){
         this.estado = EstadoReserva.PENDIENTE;
+        this.fechaCreacion = LocalDateTime.now();
     }
 
 
@@ -146,6 +150,11 @@ public class Reserva {
         return estado;
     }
 
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+
 
 
     public void setId(Long id) {
@@ -204,6 +213,17 @@ public class Reserva {
 
     public void setEstado(EstadoReserva estado) {
         this.estado = estado;
+    }
+
+
+
+
+
+
+
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
 
