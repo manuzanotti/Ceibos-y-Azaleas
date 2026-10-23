@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
+import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,4 +27,8 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
         @Param("checkIn") LocalDate checkIn, 
         @Param("checkOut") LocalDate checkOut
     );
+
+        // ... dentro de la interfaz ReservaRepository:
+    @Query("SELECT r FROM Reserva r WHERE r.estado = 'PENDIENTE' AND r.fechaCreacion < :limite")
+    List<Reserva> findPendientesExpiradas(@Param("limite") LocalDateTime limite);
 }
