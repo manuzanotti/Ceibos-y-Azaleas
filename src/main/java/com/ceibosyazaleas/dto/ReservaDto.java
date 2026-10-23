@@ -22,9 +22,9 @@ public class ReservaDto {
     private LocalDate fechaCheckOut;
 
     @Min(value = 1, message = "Al menos 1 adulto es requerido")
-    private int cantAdultos;
+    private int cantidadAdultos;
 
-    private int cantMenores;
+    private int cantidadMenores;
 
     @NotBlank(message = "El teléfono de contacto es obligatorio")
     private String telefono;
@@ -54,12 +54,12 @@ public class ReservaDto {
         return fechaCheckOut;
     }
 
-    public int getCantAdultos() {
-        return cantAdultos;
+    public int getCantidadAdultos() {
+        return cantidadAdultos;
     }
 
-    public int getCantMenores() {
-        return cantMenores;
+    public int getCantidadMenores() {
+        return cantidadMenores;
     }
 
     public String getTelefono() {
@@ -86,12 +86,12 @@ public class ReservaDto {
         this.fechaCheckOut = fechaCheckOut;
     }
 
-    public void setCantAdultos(int cantAdultos) {
-        this.cantAdultos = cantAdultos;
+    public void setCantidadAdultos(int cantidadAdultos) {
+        this.cantidadAdultos = cantidadAdultos;
     }
 
-    public void setCantMenores(int cantMenores) {
-        this.cantMenores = cantMenores;
+    public void setCantidadMenores(int cantMenores) {
+        this.cantidadMenores = cantMenores;
     }
 
     public void setTelefono(String telefono) {
