@@ -26,28 +26,46 @@ public class ReservaService {
     }
 
     public Reserva crearReserva(ReservaDto dto) {
-        // Validación de fechas
+        // 1. Validación de fechas lógicas
         if (!dto.getFechaCheckOut().isAfter(dto.getFechaCheckIn())) {
             throw new RuntimeException("La fecha de salida debe ser posterior a la fecha de entrada.");
         }
 
-        // Buscar al usuario que realiza la reserva
+        // 2. Buscar al usuario que realiza la reserva
         Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
                 .orElseThrow(() -> new RuntimeException("El usuario asociado no existe."));
 
-        // Buscar la cabaña que se va a reservar
+        // 3. Buscar la cabaña que se va a reservar
         Cabania cabania = cabaniaRepository.findById(dto.getCabaniaId())
                 .orElseThrow(() -> new RuntimeException("La cabaña no existe."));
 
-        // Instanciar y guardar la reserva
-        Reserva reserva = new Reserva(cabania,
-             usuario, 
-             dto.getFechaCheckIn(),
-             dto.getFechaCheckOut(),
-             dto.getCantAdultos(), 
-             dto.getCantMenores(), 
-             dto.getTelefono(), 
-             dto.getPrecioTotal());
+        // 4. NUEVA VALIDACIÓN: Capacidad máxima (Adultos + Menores)
+        int totalPersonas = dto.getCantidadAdultos() + dto.getCantidadMenores();
+        if (totalPersonas > cabania.getCapacidad()) {
+            throw new RuntimeException("La cantidad total de huéspedes (" + totalPersonas + 
+                ") supera la capacidad máxima de la cabaña (" + cabania.getCapacidad() + ").");
+        }
+
+        // 5. NUEVA VALIDACIÓN: Disponibilidad de fechas (Evitar solapamientos)
+        List<Reserva> solapadas = reservaRepository.encontrarReservasSolapadas(
+            dto.getCabaniaId(), dto.getFechaCheckIn(), dto.getFechaCheckOut()
+        );
+
+        if (!solapadas.isEmpty()) {
+            throw new RuntimeException("Lo sentimos, la cabaña ya se encuentra reservada o no está disponible en las fechas seleccionadas.");
+        }
+
+        // 6. Instanciar y guardar la reserva (el constructor por defecto ya le asigna EstadoReserva.PENDIENTE)
+        Reserva reserva = new Reserva(
+            cabania,
+            usuario, 
+            dto.getFechaCheckIn(),
+            dto.getFechaCheckOut(),
+            dto.getCantidadAdultos(), 
+            dto.getCantidadMenores(), 
+            dto.getTelefono(), 
+            dto.getPrecioTotal()
+        );
 
         return reservaRepository.save(reserva);
     }
