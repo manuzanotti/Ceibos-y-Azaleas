@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
             nombre: document.getElementById('nombre').value.trim(),
             apellido: document.getElementById('apellido').value.trim(),
             dni: document.getElementById('dni').value.trim(),
+            telefono: document.getElementById('telefono').value.trim(),
+            fechaNacimiento: document.getElementById('fecha_nacimiento').value.trim(),
             email: document.getElementById('email').value.trim(),
             password: document.getElementById('password').value.trim()
         };

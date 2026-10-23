@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Reservas - Ceibos y Azaleas</title>
+    <!-- Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/mis-reservas.css">
+</head>
+<body class="bg-nature">
+    
+    <div id="header-container"></div>
+
+    <main class="main-container account-layout">
+        
+        <!-- Sidebar de Navegación Interna -->
+        <aside class="account-sidebar">
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="mi-cuenta.html">
+                        <i class="fa-solid fa-user"></i> Mi Cuenta
+                    </a>
+                </li>
+                <li >
+                    <a href="mis-reservas.html">
+                        <i class="fa-solid fa-calendar-check"></i> Mis Reservas
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-star"></i> Reseñas
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-circle-question"></i> Ayuda
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Contenido Central -->
+        <section class="account-content">
+            <div class="account-card">
+                
+                <div class="section-header">
+                    <h1 class="account-title">Mis Reservas</h1>
+                    <p class="section-subtitle">Gestione sus reservas actuales, próximas y pasadas</p>
+                </div>
+
+                <!-- Tarjeta de Última Reserva / Reserva Activa -->
+                <div class="featured-reservation-card" id="featuredReservation">
+                    <div class="badge-status confirmada">Confirmada</div>
+                    <div class="reserva-card-grid">
+                        <div class="reserva-img-container">
+                            <img src="../images/cabania-modelo.jpg" alt="Cabaña Reservada" id="ultimaReservaImg">
+                        </div>
+                        <div class="reserva-details">
+                            <span class="reserva-label">Última Reserva</span>
+                            <h2 class="cabana-nombre" id="ultimaCabanaNombre">Cabaña Los Ceibos</h2>
+                            
+                            <div class="reserva-info-grid">
+                                <div class="info-block">
+                                    <i class="fa-regular fa-calendar-check"></i>
+                                    <div>
+                                        <small>Check-in / Check-out</small>
+                                        <p id="ultimaReservaFechas">-- / --</p>
+                                    </div>
+                                </div>
+                                <div class="info-block">
+                                    <i class="fa-solid fa-moon"></i>
+                                    <div>
+                                        <small>Noches</small>
+                                        <p id="ultimaReservaNoches">0 noches</p>
+                                    </div>
+                                </div>
+                                <div class="info-block">
+                                    <i class="fa-solid fa-tag"></i>
+                                    <div>
+                                        <small>Total</small>
+                                        <p class="precio-destacado" id="ultimaReservaTotal">$0</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn-primary btn-detalles" id="btnVerDetalles">Ver Detalles Completos</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de Historial de Reservas -->
+                <div class="historial-section">
+                    <h3 class="historial-title"><i class="fa-solid fa-clock-rotate-left"></i> Historial de Reservas</h3>
+                    
+                    <div class="table-responsive">
+                        <table class="reservas-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Cabaña</th>
+                                    <th>Noches</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaHistorialBody">
+                                <!-- Se llena dinámicamente con JS o datos cargados -->
+                                <tr>
+                                    <td colspan="5" class="table-empty">Cargando reservas...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script src="../js/header.js"></script>
+    <script src="../js/mis-reservas.js"></script>
+</body>
+</html>

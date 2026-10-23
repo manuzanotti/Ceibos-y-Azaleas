@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- Barra de Navegación Superior -->
+<header class="navbar">
+    <div class="nav-brand">
+        <span>Ceibos y Azaleas</span>
+    </div>
+    <nav class="nav-links">
+        <a href="dashboard.html">Inicio</a>
+        <a href="#cabanias">Cabañas</a>
+        <a href="#ubicacion">Ubicación</a>
+        <a href="#galeria">Galería</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="user-menu-btn" id="userMenuToggle">
+        <i class="fa-solid fa-user-circle"></i>
+        <span id="userNameDisplay">Bienvenido/a, Usuario</span>
+        <i class="fa-solid fa-chevron-down"></i>
+    </div>
+</header>
+
+<!-- Menú Desplegable Lateral de Usuario -->
+<aside class="sidebar-menu" id="sidebarMenu">
+    <ul>
+        <li><a href="mi-cuenta.html"><i class="fa-solid fa-user"></i> Mi Cuenta</a></li>
+        <li><a href="mis-reservas.html"><i class="fa-solid fa-calendar-check"></i> Mis Reservas</a></li>
+        <li><a href="historial.html"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a></li>
+        <li><a href="#Market"><i class="fa-solid fa-chevron-down"></i> Mercado</a></li>
+        <li class="divider"></li>
+        <li><a href="#" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</a></li>
+    </ul>
+</aside>
+
+<!-- Overlay oscuro -->
+<div class="menu-overlay" id="menuOverlay"></div>
+</body>
+</html>

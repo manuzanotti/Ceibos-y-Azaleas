@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Cuenta - Ceibos y Azaleas</title>
+    <!-- Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/mi-cuenta.css">
+    <link rel="stylesheet" href="../css/header.css">
+</head>
+<body class="bg-nature">
+
+    <!-- Header / Barra de Navegación -->
+    <div id="header-container"></div>
+
+    <!-- Contenido Principal: Panel Centrado "Mi Cuenta" -->
+    <main class="main-container">
+        <div class="account-card">
+            
+            <!-- Encabezado del Panel -->
+            <div class="account-header">
+                <div class="user-avatar-large" id="userInitial">U</div>
+                <div>
+                    <h1 class="account-title">Mi Cuenta</h1>
+                    <p class="section-subtitle">Gestione sus datos personales y de contacto</p>
+                </div>
+            </div>
+
+            <!-- Pestañas de Navegación Interna -->
+            <div class="account-tabs">
+                <button class="tab-btn active" data-target="datos-personales">Mis Datos</button>
+                <button class="tab-btn" data-target="cambiar-password">Cambiar Contraseña</button>
+            </div>
+
+            <!-- Formulario de Mis Datos -->
+            <form id="formMiCuenta" class="account-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apellido">Apellido</label>
+                        <input type="text" id="apellido" name="apellido" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dni">Documento / DNI</label>
+                        <input type="text" id="dni" name="dni" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono" placeholder="+54 9 ...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="form-footer-info">
+                    <h3>Actualizar Información</h3>
+                    <p>Modifica tus datos personales cuando lo necesites para mantener tu perfil al día.</p>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="btnCancelar" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="../js/header.js"></script>
+    <script src="../js/mi-cuenta.js"></script>
+</body>
+</html>

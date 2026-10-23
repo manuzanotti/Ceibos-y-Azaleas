@@ -1,0 +1,109 @@
+/* --------------------------------------------------
+   ESTILOS PARA LA VISTA DE HISTORIAL COMPLETO
+-------------------------------------------------- */
+
+/* Contenedor principal centrado sobre el fondo natural */
+.historial-main-container {
+    max-width: 1050px;
+    margin: 100px auto 40px auto; /* Margen superior para despegarlo del header fijo */
+    padding: 40px 30px;
+    background-color: rgba(252, 251, 250, 0.95); /* Panel translúcido elegante */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(216, 211, 200, 0.8);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Título y subtítulo perfectamente centrados */
+.historial-header-center {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.historial-title-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-style: italic;
+    color: #2c4c3b;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.historial-subtitle-main {
+    font-size: 1.05rem;
+    color: #6b7280;
+    font-weight: 300;
+}
+
+/* Contenedor de la tabla con bordes redondeados y sombra suave */
+.historial-table-box {
+    width: 100%;
+    overflow-x: auto;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+}
+
+/* Diseño de la tabla */
+.tabla-historial-estilizada {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.tabla-historial-estilizada th {
+    background-color: #2c4c3b;
+    color: #ffffff;
+    padding: 16px 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.tabla-historial-estilizada td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f3f4f6;
+    color: #374151;
+}
+
+/* Efecto hover al pasar el cursor sobre las filas */
+.tabla-historial-estilizada tr:hover {
+    background-color: #f8fafc;
+}
+
+.tabla-historial-estilizada tr:last-child td {
+    border-bottom: none;
+}
+
+/* Estilos para los estados dentro de la tabla */
+.estado-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.estado-badge.confirmada,
+.estado-badge.completada {
+    background-color: #d8f3dc;
+    color: #2d6a4f;
+    border: 1px solid #b7e4c7;
+}
+
+.estado-badge.cancelada {
+    background-color: #f8d7da;
+    color: #b02a37;
+    border: 1px solid #f5c6cb;
+}
+
+/* Mensaje cuando la tabla está vacía o cargando */
+.table-empty {
+    text-align: center;
+    color: #6b7280;
+    padding: 3rem !important;
+    font-size: 1rem;
+}

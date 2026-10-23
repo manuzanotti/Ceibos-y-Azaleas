@@ -1,51 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Verificar si hay un usuario logueado en sessionStorage
     const nombreGuardado = sessionStorage.getItem('usuarioNombre');
-    const userNameDisplay = document.getElementById('userNameDisplay');
 
-    if (nombreGuardado) {
-        userNameDisplay.textContent = `Bienvenido, ${nombreGuardado}`;
-    } else {
-        // Si no hay datos de sesión (acceso directo sin login), redirigir al login
-        window.location.href = '/html/login.html';
+    if (!nombreGuardado) {
+        // Si no hay datos de sesión, redirigir al login
+        window.location.href = 'login.html';
+        return;
     }
 
-    // 2. Referencias a los elementos del DOM
-    const userMenuToggle = document.getElementById('userMenuToggle');
-    const sidebarMenu = document.getElementById('sidebarMenu');
-    const menuOverlay = document.getElementById('menuOverlay');
-    const btnLogout = document.getElementById('btnLogout');
-
-    // 3. Función para alternar (abrir/cerrar) el menú desplegable de usuario
-    userMenuToggle.addEventListener('click', (e) => {
-        e.stopPropagation(); // Evita que el evento se propague al documento
-        sidebarMenu.classList.toggle('active');
-        menuOverlay.classList.toggle('active');
-    });
-
-    // 4. Cerrar el menú si se hace clic en el overlay transparente
-    menuOverlay.addEventListener('click', () => {
-        sidebarMenu.classList.remove('active');
-        menuOverlay.classList.remove('active');
-    });
-
-    // 5. Cerrar el menú si se presiona la tecla Escape
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            sidebarMenu.classList.remove('active');
-            menuOverlay.classList.remove('active');
-        }
-    });
-
-    // 6. Lógica para el botón de Cerrar Sesión
-    btnLogout.addEventListener('click', (e) => {
-        e.preventDefault();
-        sessionStorage.clear(); // Limpiamos los datos guardados en el navegador
-        window.location.href = '/html/login.html';
-    });
-
     // --------------------------------------------------
-    // LÓGICA DE LA MODAL DE RESERVAS
+    // LÓGICA DE LA MODAL DE RESERVAS (Específica del Dashboard)
     // --------------------------------------------------
     const modalReserva = document.getElementById('modalReserva');
     const btnCloseModal = document.getElementById('btnCloseModal');
@@ -55,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalCabanaNombre = document.getElementById('modalCabanaNombre');
     const modalCabanaCapacidad = document.getElementById('modalCabanaCapacidad');
     const modalCabanaPrecio = document.getElementById('modalCabanaPrecio');
-    const modalCabanaImg = document.getElementById('modalCabanaImg');
 
     const fechaCheckIn = document.getElementById('fechaCheckIn');
     const fechaCheckOut = document.getElementById('fechaCheckOut');
@@ -69,8 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'Estudio Las Azaleas': 85000
     };
 
-    // Precompletar el nombre con la sesión si existe
-    if (nombreGuardado) {
+    // Precompletar el nombre en el formulario de la modal con la sesión si existe
+    if (nombreGuardado && reservaNombre) {
         reservaNombre.value = nombreGuardado;
     }
 
@@ -81,61 +44,128 @@ document.addEventListener('DOMContentLoaded', () => {
             const nombre = card.querySelector('h3').textContent;
             const info = card.querySelector('.card-info').textContent;
 
-            modalCabanaNombre.textContent = nombre;
-            modalCabanaCapacidad.textContent = info;
+            if (modalCabanaNombre) modalCabanaNombre.textContent = nombre;
+            if (modalCabanaCapacidad) modalCabanaCapacidad.textContent = info;
             
             const precioNoche = preciosCabanias[nombre] || 100000;
-            modalCabanaPrecio.textContent = precioNoche.toLocaleString('es-AR');
+            if (modalCabanaPrecio) modalCabanaPrecio.textContent = precioNoche.toLocaleString('es-AR');
 
             // Abrir la modal
-            modalReserva.classList.add('active');
+            if (modalReserva) modalReserva.classList.add('active');
             
             // Establecer fecha de hoy en check-in por defecto
             const hoy = new Date().toISOString().split('T')[0];
-            fechaCheckIn.min = hoy;
-            fechaCheckIn.value = hoy;
+            if (fechaCheckIn) {
+                fechaCheckIn.min = hoy;
+                fechaCheckIn.value = hoy;
+            }
             
             calcularTotal();
         });
     });
 
     // Cerrar Modal
-    const cerrarModal = () => modalReserva.classList.remove('active');
-    btnCloseModal.addEventListener('click', cerrarModal);
-    btnCancelReserva.addEventListener('click', cerrarModal);
+    const cerrarModal = () => {
+        if (modalReserva) modalReserva.classList.remove('active');
+    };
+    
+    if (btnCloseModal) btnCloseModal.addEventListener('click', cerrarModal);
+    if (btnCancelReserva) btnCancelReserva.addEventListener('click', cerrarModal);
 
     // Cálculo dinámico de noches y precio
     const calcularTotal = () => {
-        if (fechaCheckIn.value && fechaCheckOut.value) {
+        if (fechaCheckIn && fechaCheckOut && fechaCheckIn.value && fechaCheckOut.value) {
             const date1 = new Date(fechaCheckIn.value);
             const date2 = new Date(fechaCheckOut.value);
             const diffTime = date2 - date1;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
             if (diffDays > 0) {
-                cantNoches.textContent = diffDays;
-                const precioNoche = parseInt(modalCabanaPrecio.textContent.replace(/\./g, ''));
+                if (cantNoches) cantNoches.textContent = diffDays;
+                const precioNoche = parseInt(modalCabanaPrecio.textContent.replace(/\./g, '')) || 0;
                 const total = diffDays * precioNoche;
-                precioTotalCalculado.textContent = total.toLocaleString('es-AR');
+                if (precioTotalCalculado) precioTotalCalculado.textContent = total.toLocaleString('es-AR');
             } else {
-                cantNoches.textContent = 0;
-                precioTotalCalculado.textContent = 0;
+                if (cantNoches) cantNoches.textContent = 0;
+                if (precioTotalCalculado) precioTotalCalculado.textContent = 0;
             }
         }
     };
 
-    fechaCheckIn.addEventListener('change', () => {
-        fechaCheckOut.min = fechaCheckIn.value;
-        calcularTotal();
-    });
-    fechaCheckOut.addEventListener('change', calcularTotal);
+    if (fechaCheckIn) {
+        fechaCheckIn.addEventListener('change', () => {
+            if (fechaCheckOut) fechaCheckOut.min = fechaCheckIn.value;
+            calcularTotal();
+        });
+    }
+    
+    if (fechaCheckOut) {
+        fechaCheckOut.addEventListener('change', calcularTotal);
+    }
 
-    // Simulación del envío de reserva
+// Envío real de la reserva al Backend
     const formReserva = document.getElementById('formReserva');
-    formReserva.addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('¡Reserva confirmada con éxito! (Simulación del frontend)');
-        cerrarModal();
-    });
+    if (formReserva) {
+        formReserva.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
+            // 1. Obtener datos de la sesión y del formulario
+            const usuarioId = sessionStorage.getItem('usuarioId');
+            if (!usuarioId) {
+                alert('Sesión expirada. Por favor, vuelve a iniciar sesión.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Mapeo del nombre de la cabaña al ID numérico de tu base de datos
+            const nombreCabana = modalCabanaNombre ? modalCabanaNombre.textContent.trim() : '';
+            let cabaniaId = 1; // ID por defecto
+            if (nombreCabana.includes('Azaleas')) {
+                cabaniaId = 2; // Ajusta según los IDs de tus cabañas en la BD
+            }
+
+            // Extraer precio total numérico limpio
+            const precioTexto = precioTotalCalculado ? precioTotalCalculado.textContent.replace(/\./g, '') : '0';
+            const precioTotal = parseFloat(precioTexto) || 0;
+
+            // Construir el DTO que espera Spring Boot
+            const reservaDto = {
+                usuarioId: parseInt(usuarioId),
+                cabaniaId: cabaniaId,
+                fechaCheckIn: fechaCheckIn.value,
+                fechaCheckOut: fechaCheckOut.value,
+                cantidadAdultos: parseInt(document.getElementById('cantidadAdultos')?.value || 1),
+                cantidadMenores: parseInt(document.getElementById('cantidadMenores')?.value || 0),
+                telefono: document.getElementById('telefono')?.value || 'Sin teléfono',
+                precioTotal: precioTotal
+            };
+
+            try {
+                // 2. Petición POST al endpoint del backend
+                const response = await fetch('/api/reservas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(reservaDto)
+                });
+
+                if (response.ok) {
+                    const reservaCreada = await response.json();
+                    alert('¡Reserva creada con éxito! Estado: PENDIENTE');
+                    cerrarModal();
+                    
+                    // 3. Redirigir a la página de Mis Reservas como pediste
+                    window.location.href = 'reservas.html';
+                } else {
+                    // Si el backend rechaza por capacidad o solapamiento de fechas
+                    const errorMsg = await response.text();
+                    alert('No se pudo completar la reserva: ' + errorMsg);
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+                alert('Error de conexión con el servidor.');
+            }
+        });
+    }
 });

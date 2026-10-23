@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Guardamos el nombre en el sessionStorage del navegador
                 sessionStorage.setItem('usuarioNombre', usuario.nombre);
-                
+                sessionStorage.setItem('usuarioId', usuario.id);
                 // Redirigimos al dashboard
                 window.location.href = '/html/dashboard.html';
             } else {

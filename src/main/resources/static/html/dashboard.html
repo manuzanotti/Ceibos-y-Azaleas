@@ -7,42 +7,11 @@
     <!-- Font Awesome para los íconos del menú -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/header.css">
 </head>
 <body>
 
-    <!-- Barra de Navegación Superior -->
-    <header class="navbar">
-        <div class="nav-brand">
-            <span>Ceibos y Azaleas</span>
-        </div>
-        <nav class="nav-links">
-            <a href="dashboard.html" class="active">Inicio</a>
-            <a href="#cabanias">Cabañas</a>
-            <a href="#ubicacion">Ubicación</a>
-            <a href="#reservas">Reservas</a>
-            <a href="#galeria">Galería</a>
-            <a href="#contacto">Contacto</a>
-        </nav>
-        <div class="user-menu-btn" id="userMenuToggle">
-            <i class="fa-solid fa-user-circle"></i>
-            <span id="userNameDisplay">Bienvenido, Usuario</span>
-            <i class="fa-solid fa-chevron-down"></i>
-        </div>
-    </header>
-
-    <!-- Menú Desplegable Lateral de Usuario -->
-    <aside class="sidebar-menu" id="sidebarMenu">
-        <ul>
-            <li><a href="#mi-cuenta"><i class="fa-solid fa-user"></i> Mi Cuenta</a></li>
-            <li><a href="#mis-reservas"><i class="fa-solid fa-calendar-check"></i> Mis Reservas</a></li>
-            <li><a href="#historial"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a></li>
-            <li class="divider"></li>
-            <li><a href="#" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</a></li>
-        </ul>
-    </aside>
-
-    <!-- Overlay oscuro para cerrar el menú al hacer clic afuera -->
-    <div class="menu-overlay" id="menuOverlay"></div>
+    <div id="header-container"></div>
 
     <!-- Sección Principal (Hero Banner) -->
     <main class="hero-section">
@@ -53,7 +22,7 @@
                 Disfruta de la tranquilidad a orillas del río Paraná. Un lugar perfecto para pescar, relajarse 
                 y reconectarse con la naturaleza. Tu descanso ideal en Campana.
             </p>
-            <a href="#reservas" class="btn-primary">Reserva Tu Estadía Ahora</a>
+            <a href="#cabanias" class="btn-primary">Reserva Tu Estadía Ahora</a>
         </div>
     </main>
     <section id="cabanias" class="cabanias-section">
@@ -216,8 +185,8 @@
                     <div class="modal-form-details">
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="cantAdultos">Adultos</label>
-                                <select id="cantAdultos">
+                                <label for="cantidadAdultos">Adultos</label>
+                                <select id="cantidadAdultos">
                                     <option value="1">1 Adulto</option>
                                     <option value="2" selected>2 Adultos</option>
                                     <option value="3">3 Adultos</option>
@@ -225,8 +194,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="cantNinos">Niños (2-12 años)</label>
-                                <select id="cantNinos">
+                                <label for="cantidadMenores">Niños (2-12 años)</label>
+                                <select id="cantidadMenores">
                                     <option value="0" selected>0 Niños</option>
                                     <option value="1">1 Niño</option>
                                     <option value="2">2 Niños</option>
@@ -260,6 +229,7 @@
                 </form>
             </div>
         </div>
-    <script src="../js/dashboard.js"></script>
+<script src="../js/header.js"></script>
+<script src="../js/dashboard.js"></script>
 </body>
 </html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Reservas - Ceibos y Azaleas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/historial.css">
+</head>
+<body class="bg-nature">
+    
+    <!-- Header dinámico -->
+    <div id="header-container"></div>
+
+    <!-- Contenedor Principal Centrado -->
+    <main class="historial-main-container">
+        
+        <!-- Título y Subtítulo Centrados -->
+        <div class="historial-header-center">
+            <h1 class="historial-title-main">Historial de Reservas</h1>
+            <p class="historial-subtitle-main">Consulte el registro completo de todas sus estadías en el complejo</p>
+        </div>
+
+        <!-- Tabla Estilizada -->
+        <div class="historial-table-box">
+            <table class="tabla-historial-estilizada">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cabaña</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Noches</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaHistorialCompleto">
+                    <tr>
+                        <td colspan="7" class="table-empty">Cargando historial de reservas...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="../js/header.js"></script>
+    <script src="../js/historial.js"></script>
+</body>
+</html>

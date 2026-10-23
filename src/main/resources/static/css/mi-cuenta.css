@@ -1,0 +1,230 @@
+body.bg-nature {
+    /* Reemplaza 'ruta/a/tu/imagen_4.png' con la ruta real */
+    background-image: url('../images/mi-cuenta.jpg');
+    background-size: cover;          /* Cubre todo el ancho y alto */
+    background-position: center;     /* Centra la imagen */
+    background-repeat: no-repeat;    /* No repite */
+    background-attachment: fixed;    /* El fondo se queda quieto al hacer scroll */
+    
+    /* Opcional: Agrega una capa suave superpuesta para maximizar el contraste */
+    background-blend-mode: overlay;
+    background-color: rgba(255, 255, 255, 0.1); /* Una capa blanca al 10% */
+}
+/* Variables de Estilo */
+:root {
+    --bg-color: #f4f1ea;
+    --card-bg: #fcfbfa;
+    --text-primary: #2c332e;
+    --text-secondary: #606862;
+    --accent-green: #3a5a40;
+    --accent-green-hover: #2f4833;
+    --border-color: #d8d3c8;
+    --input-bg: #f7f5f0;
+    --btn-cancel: #8a8d8a;
+    --btn-cancel-hover: #737673;
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --radius-sm: 6px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Reset Básico y Fondo */
+body.bg-nature {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+
+
+/* Main Container & Account Card */
+.main-container {
+    display: flex;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+}
+
+.account-card {
+    background-color: var(--card-bg);
+    width: 100%;
+    max-width: 850px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    padding: 2.5rem;
+}
+
+/* Header del Panel */
+.account-header {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.user-avatar-large {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background-color: #e3ded5;
+    color: var(--accent-green);
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+}
+
+.account-title {
+    margin: 0;
+    font-size: 2rem;
+    color: var(--text-primary);
+    font-family: Georgia, serif;
+}
+
+/* Pestañas (Tabs) */
+.account-tabs {
+    display: flex;
+    gap: 2rem;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 2rem;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 0.8rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.tab-btn.active {
+    color: var(--accent-green);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--accent-green);
+    border-radius: 2px;
+}
+
+/* Grid del Formulario */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.form-group input {
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: var(--input-bg);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 3px rgba(58, 90, 64, 0.15);
+}
+
+/* Divisores y Pie de Formulario */
+.divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0 1.5rem 0;
+}
+
+.form-footer-info h3 {
+    margin: 0 0 0.3rem 0;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.form-footer-info p {
+    margin: 0 0 1.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Botones de Acción */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--accent-green);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.8rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-green-hover);
+}
+
+.btn-secondary {
+    background-color: var(--btn-cancel);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.8rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: var(--btn-cancel-hover);
+}
+
+/* Diseño Responsive para pantallas pequeñas */
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .account-card {
+        padding: 1.5rem;
+    }
+    
+    .navbar {
+        padding: 1rem;
+    }
+}
