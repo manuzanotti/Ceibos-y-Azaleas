@@ -55,6 +55,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Función auxiliar para obtener los estilos visuales según el estado
+    function obtenerEstilosEstado(estado) {
+        switch (estado) {
+            case 'CONFIRMADA':
+                return {
+                    bg: '#d1e7dd',
+                    color: '#0f5132',
+                    border: '#badbcc'
+                };
+            case 'PENDIENTE':
+                return {
+                    bg: '#fff3cd',
+                    color: '#664d03',
+                    border: '#ffeeba'
+                };
+            case 'CANCELADA':
+                return {
+                    bg: '#f8d7da',
+                    color: '#842029',
+                    border: '#f5c2c7'
+                };
+            default:
+                return {
+                    bg: '#e2e3e5',
+                    color: '#383d41',
+                    border: '#d6d8db'
+                };
+        }
+    }
+
     // 4. Renderizar los datos en la interfaz
     function renderizarReservas(reservas) {
         const featuredCard = document.getElementById('featuredReservation');
@@ -82,10 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // La primera (más reciente) va en la tarjeta principal
         const ultimaReserva = reservas[0];
-        
-        // Mapeo seguro de fechas (soporta checkIn/chekOut y fechaCheckIn/fechaCheckOut)
         const fIn = ultimaReserva.checkIn || ultimaReserva.fechaCheckIn;
         const fOut = ultimaReserva.chekOut || ultimaReserva.fechaCheckOut;
+        const estadoUltima = ultimaReserva.estado || 'PENDIENTE';
+        const estilosUltima = obtenerEstilosEstado(estadoUltima);
 
         if (featuredCard) {
             const nombreCabana = ultimaReserva.cabania ? ultimaReserva.cabania.nombre : (ultimaReserva.cabanaNombre || 'Cabaña');
@@ -108,26 +138,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (elementTotal) elementTotal.textContent = `$${(ultimaReserva.precioTotal || 0).toLocaleString('es-AR')}`;
 
-            // Actualizar dinámicamente el estado en la tarjeta principal (ej. PENDIENTE)
-            const badgePrincipal = featuredCard.querySelector('.estado-badge') || featuredCard.querySelector('div[style*="background"]');
-            const estadoUltima = ultimaReserva.estado || 'PENDIENTE';
-            
-            // Si tienes un elemento específico para el badge de estado arriba a la derecha:
-            const statusBadgeTop = featuredCard.querySelector('.rounded-pill, [class*="badge"], div:has(> .fa-solid) + div span, .btn, span[style*="padding"]');
-            // O podemos buscar el elemento por su contenido anterior ("Confirmada")
-            const allSpansOrDivs = featuredCard.querySelectorAll('div, span');
-            allSpansOrDivs.forEach(el => {
-                if (el.textContent.trim() === 'Confirmada' || el.textContent.trim() === 'COMPLETADA' || el.textContent.trim() === 'PENDIENTE') {
-                    el.textContent = estadoUltima;
-                    if (estadoUltima === 'PENDIENTE') {
-                        el.style.backgroundColor = '#f8d7da';
-                        el.style.color = '#b02a37';
-                    }
-                }
-            });
+            // Actualizar directamente el badge de la tarjeta principal por su ID
+            const badgeUltima = document.getElementById('badgeUltimaReserva');
+            if (badgeUltima) {
+                badgeUltima.textContent = estadoUltima;
+                badgeUltima.className = 'badge-status'; // Limpiamos clases previas que fuercen color
+                badgeUltima.style.backgroundColor = estilosUltima.bg;
+                badgeUltima.style.color = estilosUltima.color;
+                badgeUltima.style.border = `1px solid ${estilosUltima.border}`;
+                badgeUltima.style.padding = '6px 14px';
+                badgeUltima.style.borderRadius = '20px';
+                badgeUltima.style.display = 'inline-block';
+                badgeUltima.style.fontWeight = '600';
+            }
         }
 
-        // Las demás van a la tabla del historial
+        // Las demás van a la tabla del historial con su respectivo color y bordes redondeados
         let htmlTabla = '';
         reservas.forEach((reserva) => {
             const cabaniaNombre = reserva.cabania ? reserva.cabania.nombre : (reserva.cabanaNombre || 'Cabaña');
@@ -142,13 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             const estadoTexto = reserva.estado || 'PENDIENTE';
-            let estadoClase = 'completada';
-            
-            if (estadoTexto === 'PENDIENTE') {
-                estadoClase = 'cancelada'; 
-            } else if (estadoTexto === 'CANCELADA') {
-                estadoClase = 'cancelada';
-            }
+            const estilo = obtenerEstilosEstado(estadoTexto);
 
             htmlTabla += `
                 <tr>
@@ -156,7 +176,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${cabaniaNombre}</td>
                     <td>${noches} Noches</td>
                     <td>$${(reserva.precioTotal || 0).toLocaleString('es-AR')}</td>
-                    <td><span class="estado-badge ${estadoClase}">${estadoTexto}</span></td>
+                    <td>
+                        <span style="background-color: ${estilo.bg}; color: ${estilo.color}; border: 1px solid ${estilo.border}; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem; display: inline-block;">
+                            ${estadoTexto}
+                        </span>
+                    </td>
                 </tr>
             `;
         });
