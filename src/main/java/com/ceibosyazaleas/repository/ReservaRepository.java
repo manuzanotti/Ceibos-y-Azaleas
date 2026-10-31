@@ -17,6 +17,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     List<Reserva> findByUsuarioId(Long usuarioId);
 
     
+    
     // Consulta clave para validar si la cabaña ya está ocupada en el rango de fechas solicitado
     // Una cabaña se cruza si: (NuevoCheckIn < CheckOutExistente) AND (NuevoCheckOut > CheckInExistente)
     @Query("SELECT r FROM Reserva r WHERE r.cabania.id = :cabaniaId " +
