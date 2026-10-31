@@ -130,7 +130,7 @@ body {
     font-size: 0.95rem;
 }
 
-/* Buscador de usuarios */
+/* Buscador */
 .search-box input {
     padding: 10px 14px;
     width: 280px;
@@ -150,6 +150,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
+    margin-bottom: 30px;
 }
 
 .stat-card {
@@ -183,6 +184,38 @@ body {
     color: #1f2937;
 }
 
+/* Grillas de Gráficos */
+.charts-container-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.chart-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-card h3 {
+    font-size: 0.95rem;
+    color: #1f2937;
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.chart-wrapper {
+    position: relative;
+    height: 220px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 /* Tablas de Gestión */
 .table-container {
     background: white;
@@ -214,6 +247,11 @@ body {
     font-size: 0.95rem;
 }
 
+.admin-table tbody tr {
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
 .admin-table tbody tr:hover {
     background-color: #f9fafb;
 }
@@ -238,7 +276,6 @@ body {
     justify-content: center;
     gap: 8px;
     transition: background-color 0.2s;
-    flex: 1;
 }
 
 .btn-primary:hover {
@@ -254,8 +291,6 @@ body {
     cursor: pointer;
     font-weight: 600;
     transition: background-color 0.2s;
-    flex: 1;
-    text-align: center;
 }
 
 .btn-secondary:hover {
@@ -301,7 +336,7 @@ body {
     color: #ffffff;
 }
 
-/* Modales del Panel de Administración */
+/* Modales */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -325,7 +360,6 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-/* Corrección: Título del modal centrado */
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -341,11 +375,10 @@ body {
     font-size: 1.3rem;
     color: #2c332e;
     width: 100%;
-    text-align: center; /* Centra el texto del título */
+    text-align: center;
     margin: 0;
 }
 
-/* Botón de cierre posicionado de forma absoluta para no desalinear el título centrado */
 .modal-header .btn-close {
     position: absolute;
     right: 0;
@@ -357,7 +390,7 @@ body {
     padding: 0 5px;
 }
 
-/* Formulario dentro del modal de modificación */
+/* Formularios */
 .modal-form-body {
     display: flex;
     flex-direction: column;
@@ -403,16 +436,6 @@ body {
     box-shadow: 0 0 0 3px rgba(44, 76, 59, 0.15);
 }
 
-/* Corrección de la botonera inferior del modal de detalles */
-.modal-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-}
-
-/* Distribución de la botonera inferior del modal de modificación */
 .modal-actions-split {
     display: flex;
     justify-content: space-between;
@@ -422,14 +445,6 @@ body {
     border-top: 1px solid #e5e7eb;
 }
 
-.modal-actions-right {
-    display: flex;
-    gap: 10px;
-    flex: 1;
-    justify-content: flex-end;
-}
-
-/* Detalles generales de filas en modales */
 .detail-row {
     display: flex;
     justify-content: space-between;
