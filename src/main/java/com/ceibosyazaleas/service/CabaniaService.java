@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.ceibosyazaleas.dto.CabaniaRegistroDto;
 import com.ceibosyazaleas.model.Cabania;
 import com.ceibosyazaleas.repository.CabaniaRepository;
 
@@ -28,8 +29,15 @@ public class CabaniaService {
         return cabaniaRepository.findById(id);
     }
 
-    public Cabania registrarCabania(Cabania cabania){
-        return cabaniaRepository.save(cabania);
+    public Cabania registrarCabania(CabaniaRegistroDto  dto){
+       Cabania nuevaCabania = new Cabania(
+        dto.getNombre(), 
+        dto.getDescripcion(), 
+        dto.getCapacidad(), 
+        dto.getComodidades(), 
+        dto.getPrecioPorNoche());
+
+        return cabaniaRepository.save(nuevaCabania);
     }
 
 
