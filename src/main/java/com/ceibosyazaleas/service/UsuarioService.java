@@ -7,8 +7,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.ceibosyazaleas.model.TipoDeUsuario;
 import com.ceibosyazaleas.model.Usuario;
 import com.ceibosyazaleas.repository.UsuarioRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service 
 public class UsuarioService {
@@ -55,7 +58,7 @@ public class UsuarioService {
             throw new RuntimeException("Debes ser mayor de 18 años para registrarte.");
         }
             
-            // Opcional: poner un límite lógico de antigüedad (ej: nadie nació en 1800)
+            // poner un límite lógico de antigüedad (ej: nadie nació en 1800)
         if (edad > 120) {
             throw new RuntimeException("Por favor, ingresa una fecha de nacimiento válida.");
         }
@@ -67,10 +70,74 @@ public class UsuarioService {
     public List<Usuario> mostrarUsuarios(){
         return usuarioRepository.findAll();
     }
+    
+    @Transactional
+    public void eliminarUsuario(Long id){
+        usuarioRepository.findById(id)
+        .orElseThrow(()-> new RuntimeException("El usuario no existe"));
+        
+       usuarioRepository.deleteById(id);
+    }
+
 
     public Optional<Usuario> obtenerUsuarioPorId(Long id){
         
         return usuarioRepository.findById(id);
     }
+
+
+    public Usuario actualizarDatosUsuario(Long id, Usuario usuario){
+        Usuario usuarioActualizado = usuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado")) ;
+        
+        // Actualizamos los campos recibidos del formulario. En este caso por el momento recibimos todos los datos del form. 
+        // Algunos vienen por defecto y por el momento no se pueden modificar.
+        usuarioActualizado.setNombre(usuario.getNombre());
+        usuarioActualizado.setApellido(usuario.getApellido());
+        usuarioActualizado.setEmail(usuario.getEmail());
+        usuarioActualizado.setDni(usuario.getDni());
+        usuarioActualizado.setTelefono(usuario.getTelefono());
+        usuarioActualizado.setFechaNacimiento(usuario.getFechaNacimiento());
+
+        return usuarioRepository.save(usuarioActualizado);
+    }
+
+    public Usuario actualizarContrasenia(Long id, String passwordActual, String passwordNueva){
+        Usuario usuarioActualizado = usuarioRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Usuario no encontrado."));
+    
+        if(passwordNueva == null || passwordNueva.isBlank()){
+            throw new RuntimeException("La nueva contraseña no puede estar vacia.");
+        }
+    
+        if(passwordNueva == usuarioActualizado.getPassword()){
+            throw new RuntimeException("La nueva contraseña no puede ser igual a la contraseña actual.");
+        }
+        
+        usuarioActualizado.setPassword(passwordNueva);
+        return usuarioRepository.save(usuarioActualizado);
+    }
+
+    public Usuario modificarTipoDeUsuario(Long id, TipoDeUsuario tipo){
+        Usuario usuarioMoficiado = usuarioRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("El usuario no existe."));
+    
+        usuarioMoficiado.setTipoDeUsuario(tipo);
+
+        return usuarioRepository.save(usuarioMoficiado);
+        
+    }
+
+    public Usuario desactivarCuenta(Long id){
+        Usuario bajaUsuario = usuarioRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("El usuario no existe."));
+
+        if(!bajaUsuario.isActivo()){
+            throw new RuntimeException("El usuario ya esta dado de baja.");
+        }
+        bajaUsuario.setActivo(false);
+        return usuarioRepository.save(bajaUsuario);
+    }
+
 
 }
