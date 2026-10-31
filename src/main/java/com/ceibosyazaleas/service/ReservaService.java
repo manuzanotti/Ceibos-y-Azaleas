@@ -2,6 +2,7 @@ package com.ceibosyazaleas.service;
 
 import com.ceibosyazaleas.dto.ReservaDto;
 import com.ceibosyazaleas.model.Cabania;
+import com.ceibosyazaleas.model.EstadoReserva;
 import com.ceibosyazaleas.model.Reserva;
 import com.ceibosyazaleas.model.Usuario;
 import com.ceibosyazaleas.repository.CabaniaRepository;
@@ -26,6 +27,8 @@ public class ReservaService {
     }
 
     public Reserva crearReserva(ReservaDto dto) {
+        
+        
         // 1. Validación de fechas lógicas
         if (!dto.getFechaCheckOut().isAfter(dto.getFechaCheckIn())) {
             throw new RuntimeException("La fecha de salida debe ser posterior a la fecha de entrada.");
@@ -34,19 +37,20 @@ public class ReservaService {
         // 2. Buscar al usuario que realiza la reserva
         Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
                 .orElseThrow(() -> new RuntimeException("El usuario asociado no existe."));
+                
 
         // 3. Buscar la cabaña que se va a reservar
         Cabania cabania = cabaniaRepository.findById(dto.getCabaniaId())
                 .orElseThrow(() -> new RuntimeException("La cabaña no existe."));
 
-        // 4. NUEVA VALIDACIÓN: Capacidad máxima (Adultos + Menores)
+        // 4. Capacidad máxima (Adultos + Menores)
         int totalPersonas = dto.getCantidadAdultos() + dto.getCantidadMenores();
         if (totalPersonas > cabania.getCapacidad()) {
             throw new RuntimeException("La cantidad total de huéspedes (" + totalPersonas + 
                 ") supera la capacidad máxima de la cabaña (" + cabania.getCapacidad() + ").");
         }
 
-        // 5. NUEVA VALIDACIÓN: Disponibilidad de fechas (Evitar solapamientos)
+        // 5. Disponibilidad de fechas (Evitar solapamientos)
         List<Reserva> solapadas = reservaRepository.encontrarReservasSolapadas(
             dto.getCabaniaId(), dto.getFechaCheckIn(), dto.getFechaCheckOut()
         );
@@ -73,4 +77,24 @@ public class ReservaService {
     public List<Reserva> obtenerReservasPorUsuario(Long usuarioId) {
         return reservaRepository.findByUsuarioId(usuarioId);
     }
+
+
+    public Reserva cancelarReserva(Long id, EstadoReserva estado){
+        Reserva reservaCancelada = reservaRepository.findById(id)
+        .orElseThrow(()-> new RuntimeException("No existe la reserva"));
+
+        reservaCancelada.setEstado(estado);
+
+        return reservaRepository.save(reservaCancelada);
+    }
+
+    public List <Reserva> listarReservas(){
+        return reservaRepository.findAll();
+    }
+
+
+
+
+
+
 }
