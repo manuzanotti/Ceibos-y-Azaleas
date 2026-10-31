@@ -16,6 +16,10 @@ body {
     color: #2c332e;
 }
 
+.nav-brand a {
+    text-decoration: none;
+}
+
 /* --------------------------------------------------
    1. BARRA DE NAVEGACIÓN SUPERIOR
 -------------------------------------------------- */
@@ -124,8 +128,17 @@ body {
 
 .sidebar-menu ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos se apilen verticalmente uno debajo del otro */
 }
 
+.sidebar-menu ul li {
+    width: 100%;
+}
+
+/* Corrección de alineación para que los íconos y textos no se superpongan */
 .sidebar-menu ul li a {
     display: flex;
     align-items: center;
@@ -135,6 +148,16 @@ body {
     text-decoration: none;
     font-size: 0.95rem;
     transition: background-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+    width: 100%;
+}
+
+/* Ancho fijo para los íconos del menú lateral asegurando alineación perfecta */
+.sidebar-menu ul li a i {
+    width: 20px;
+    text-align: center;
+    font-size: 1rem;
+    color: #ffffff;
 }
 
 .sidebar-menu ul li a:hover {
@@ -146,6 +169,7 @@ body {
     height: 1px;
     background-color: rgba(255, 255, 255, 0.15);
     margin: 10px 0;
+    width: 100%;
 }
 
 /* Overlay para cerrar al hacer clic afuera */

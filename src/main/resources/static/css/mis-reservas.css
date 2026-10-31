@@ -258,7 +258,170 @@ body.bg-nature {
     background-color: #f8d7da;
     color: #b02a37;
 }
+/* ==========================================
+   ESTILOS DE LA MODAL DE DETALLES DE RESERVA
+   ================================---------- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
 
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content.modal-detalles {
+    background: var(--card-bg, #fcfbfa);
+    padding: 2.5rem;
+    border-radius: var(--radius-lg, 16px);
+    border: 1px solid var(--border-color, #d8d3c8);
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color, #d8d3c8);
+    padding-bottom: 1rem;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--text-primary, #2c332e);
+    font-size: 1.4rem;
+    font-family: Georgia, serif;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: var(--text-secondary, #606862);
+    transition: color 0.2s;
+}
+
+.btn-close:hover {
+    color: var(--text-primary, #2c332e);
+}
+
+/* Caja de alerta para el temporizador de 10 minutos (Estado PENDIENTE) */
+.payment-timer-box {
+    background-color: #fef3c7;
+    border: 1px solid #f59e0b;
+    color: #92400e;
+    padding: 1rem;
+    border-radius: var(--radius-md, 10px);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.payment-timer-box i {
+    font-size: 1.2rem;
+    margin-top: 0.1rem;
+    color: #d97706;
+}
+
+.payment-timer-box strong {
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.payment-timer-box p {
+    margin: 0;
+}
+
+/* Cuerpo de detalles en la modal */
+.modal-body-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed var(--border-color, #d8d3c8);
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--text-secondary, #606862);
+    font-size: 0.95rem;
+}
+
+.detail-value {
+    color: var(--text-primary, #2c332e);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.detail-row.total-row {
+    border-bottom: none;
+    border-top: 2px solid var(--border-color, #d8d3c8);
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+}
+
+.detail-row.total-row .detail-label {
+    font-size: 1.1rem;
+    color: var(--text-primary, #2c332e);
+    font-family: Georgia, serif;
+}
+
+/* Acciones en la modal (botones de pagar / cancelar reserva) */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    border-top: 1px solid var(--border-color, #d8d3c8);
+    padding-top: 1.5rem;
+}
+
+.btn-secondary {
+    background-color: var(--btn-cancel, #8a8d8a);
+    color: white;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: var(--radius-md, 10px);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: var(--btn-cancel-hover, #737673);
+}
+/* Resaltar la fila de la reserva que está activa en la tarjeta superior */
+.reservas-table tr.fila-activa {
+    background-color: #f0ede6 !important;
+    font-weight: 500;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 /* Responsive */
 @media (max-width: 900px) {
     .account-layout {

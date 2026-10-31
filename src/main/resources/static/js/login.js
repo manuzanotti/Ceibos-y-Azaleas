@@ -21,12 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                // Parseamos el JSON que mandó Spring Boot (el objeto Usuario)
+                // Parseamos el JSON que mandó Spring Boot
                 const usuario = await response.json();
                 
                 // Guardamos el nombre en el sessionStorage del navegador
                 sessionStorage.setItem('usuarioNombre', usuario.nombre);
                 sessionStorage.setItem('usuarioId', usuario.id);
+                sessionStorage.setItem('tipoDeUsuario', usuario.tipoDeUsuario);  //Aqui guardo el tipo de cuenta, para diferenciar los clientes de los trabajadores y administradores.
                 // Redirigimos al dashboard
                 window.location.href = '/html/dashboard.html';
             } else {

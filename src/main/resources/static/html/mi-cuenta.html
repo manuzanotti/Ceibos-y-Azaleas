@@ -31,7 +31,7 @@
             <!-- Pestañas de Navegación Interna -->
             <div class="account-tabs">
                 <button class="tab-btn active" data-target="datos-personales">Mis Datos</button>
-                <button class="tab-btn" data-target="cambiar-password">Cambiar Contraseña</button>
+                <button class="tab-btn" id="btnAbrirModalPass" type="button">Cambiar Contraseña</button>
             </div>
 
             <!-- Formulario de Mis Datos -->
@@ -39,12 +39,12 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" required>
+                        <input type="text" id="nombre" name="nombre" required disabled>
                     </div>
 
                     <div class="form-group">
                         <label for="apellido">Apellido</label>
-                        <input type="text" id="apellido" name="apellido" required>
+                        <input type="text" id="apellido" name="apellido" required disabled>
                     </div>
 
                     <div class="form-group">
@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="dni">Documento / DNI</label>
+                        <label for="dni">Documento / Pasaporte</label>
                         <input type="text" id="dni" name="dni" required>
                     </div>
 
@@ -64,7 +64,7 @@
 
                     <div class="form-group">
                         <label for="fechaNacimiento">Fecha de Nacimiento</label>
-                        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required disabled>
                     </div>
                 </div>
 
@@ -80,9 +80,37 @@
                     <button type="submit" class="btn-primary">Guardar Cambios</button>
                 </div>
             </form>
-
         </div>
     </main>
+
+    <!-- Modal de Cambio de Contraseña (Integrado de forma limpia) -->
+    <div class="modal-overlay" id="modalPassword">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cambiar Contraseña</h3>
+                <button class="btn-close" id="btnCloseModalPass">&times;</button>
+            </div>
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+            <form id="formCambiarPassword">
+                <div class="form-group">
+                    <label for="passwordActual">Contraseña Actual</label>
+                    <input type="password" id="passwordActual" required class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="passwordNueva">Nueva Contraseña</label>
+                    <input type="password" id="passwordNueva" required class="form-input">
+                </div>
+                    <div class="form-group">
+                    <label for="passwordConfirmar">Confirmar Contraseña</label>
+                    <input type="password" id="passwordConfirmar" required class="form-input">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="btnCancelarPass">Cancelar</button>
+                    <button type="submit" class="btn-primary">Actualizar Contraseña</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="../js/header.js"></script>

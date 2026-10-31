@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (inputTelefono) inputTelefono.value = usuario.telefono || '';
                 if (inputFechaNac) inputFechaNac.value = usuario.fechaNacimiento || '';
 
-                // Actualizar inicial en el avatar de la tarjeta
                 if (userInitial && usuario.nombre) {
                     userInitial.textContent = usuario.nombre.charAt(0).toUpperCase();
                 }
@@ -55,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cargarDatosUsuario();
 
-    // Enviar formulario de actualización
+    // Enviar formulario de actualización de datos
     if (formMiCuenta) {
         formMiCuenta.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -72,9 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch(`/api/usuarios/${usuarioId}`, {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(datosActualizados)
                 });
 
@@ -92,11 +89,105 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Botón Cancelar (regresa al dashboard)
     const btnCancelar = document.getElementById('btnCancelar');
     if (btnCancelar) {
         btnCancelar.addEventListener('click', () => {
             window.location.href = 'dashboard.html';
+        });
+    }
+
+    // ==========================================
+    // LÓGICA DE LA MODAL Y CAMBIO DE CONTRASEÑA
+    // ==========================================
+    const modalPassword = document.getElementById('modalPassword');
+    const btnAbrirModalPass = document.getElementById('btnAbrirModalPass');
+    const btnCloseModalPass = document.getElementById('btnCloseModalPass');
+    const btnCancelarPass = document.getElementById('btnCancelarPass');
+    const formCambiarPassword = document.getElementById('formCambiarPassword');
+    const errorMessage = document.getElementById('errorMessage');
+
+    const abrirModalPass = () => { 
+        if (modalPassword) modalPassword.classList.add('active');
+        if (errorMessage) {
+            errorMessage.style.display = 'none'; // Limpiar errores al abrir
+            errorMessage.textContent = '';
+        }
+    };
+
+    const cerrarModalPass = () => { 
+        if (modalPassword) modalPassword.classList.remove('active');
+        if (formCambiarPassword) formCambiarPassword.reset();
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
+            errorMessage.textContent = '';
+        }
+    };
+
+    if (btnAbrirModalPass) btnAbrirModalPass.addEventListener('click', abrirModalPass);
+    if (btnCloseModalPass) btnCloseModalPass.addEventListener('click', cerrarModalPass);
+    if (btnCancelarPass) btnCancelarPass.addEventListener('click', cerrarModalPass);
+
+    if (formCambiarPassword) {
+        formCambiarPassword.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Ocultar error previo antes de validar
+            if (errorMessage) {
+                errorMessage.style.display = 'none';
+                errorMessage.textContent = '';
+            }
+
+            const passwordActual = document.getElementById('passwordActual').value;
+            const passwordNueva = document.getElementById('passwordNueva').value;
+            const passwordConfirmar = document.getElementById('passwordConfirmar').value;
+
+            // 1. Validar que las nuevas contraseñas coincidan
+            if (passwordNueva !== passwordConfirmar) {
+                if (errorMessage) {
+                    errorMessage.textContent = 'Las nuevas contraseñas no coinciden.';
+                    errorMessage.style.display = 'block';
+                }
+                return;
+            }
+
+            // 2. Validar que la nueva no sea igual a la actual
+            if (passwordNueva === passwordActual) {
+                if (errorMessage) {
+                    errorMessage.textContent = 'La nueva contraseña no puede ser igual a la actual.';
+                    errorMessage.style.display = 'block';
+                }
+                return;
+            }
+
+            const datosPassword = {
+                passwordActual: passwordActual,
+                passwordNueva: passwordNueva
+            };
+
+            try {
+                const response = await fetch(`/api/usuarios/${usuarioId}/password`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datosPassword)
+                });
+
+                if (response.ok) {
+                    alert('¡Contraseña actualizada con éxito!');
+                    cerrarModalPass();
+                } else {
+                    const errorMsg = await response.text();
+                    if (errorMessage) {
+                        errorMessage.textContent = errorMsg || 'No se pudo actualizar la contraseña.';
+                        errorMessage.style.display = 'block';
+                    }
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+                if (errorMessage) {
+                    errorMessage.textContent = 'Error de conexión con el servidor.';
+                    errorMessage.style.display = 'block';
+                }
+            }
         });
     }
 });

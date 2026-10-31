@@ -526,9 +526,55 @@ body {
     margin-top: 4px;
 }
 
-/* Formulario */
+/* Contenedor general de los detalles del formulario */
 .modal-form-details {
+    display: flex;
+    flex-direction: column;
+    gap: 14px; /* Espacio uniforme entre cada campo */
     margin-top: 15px;
+}
+
+/* Filas para agrupar de a dos elementos si lo deseas, o de uno en uno */
+.modal-form-details .form-row {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+/* Cada grupo (Etiqueta + Input/Select) */
+.modal-form-details .form-group {
+    display: flex;
+    flex-direction: column; /* Pone la etiqueta ARRIBA y el input ABAJO */
+    gap: 6px;               /* Separación corta entre el texto y la caja */
+    width: 100%;
+    flex: 1;
+}
+
+/* Estilo unificado para las etiquetas */
+.modal-form-details label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2c332e;
+}
+
+/* Normalizar inputs y selects para que tengan el mismo ancho y diseño prolijo */
+.modal-form-details input,
+.modal-form-details select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1c7bc;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 0.95rem;
+    color: #1f2937;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.modal-form-details input:focus,
+.modal-form-details select:focus {
+    border-color: #2c4c3b;
+    box-shadow: 0 0 0 3px rgba(44, 76, 59, 0.15);
 }
 
 .btn-submit-reserva {

@@ -34,7 +34,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="ayuda.html">
                         <i class="fa-solid fa-circle-question"></i> Ayuda
                     </a>
                 </li>
@@ -120,6 +120,62 @@
 
     </main>
 
+    <!-- Modal de Detalles Completos de la Reserva -->
+    <div class="modal-overlay" id="modalDetallesReserva">
+        <div class="modal-content modal-detalles">
+            <div class="modal-header">
+                <h3>Detalles de la Reserva</h3>
+                <button class="btn-close" id="btnCloseModalDetalles">&times;</button>
+            </div>
+            
+            <!-- Aviso de tiempo restante para abonar (Aparece solo si está PENDIENTE) -->
+            <div id="paymentTimerContainer" class="payment-timer-box" style="display: none;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div>
+                    <strong>Pago Pendiente</strong>
+                    <p>Tiene <span id="tiempoRestante">10:00</span> minutos para abonar o la reserva se cancelará automáticamente.</p>
+                </div>
+            </div>
+
+            <div class="modal-body-details">
+                <div class="detail-row">
+                    <span class="detail-label">Estado actual:</span>
+                    <span id="detEstado" class="detail-value">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Cabaña:</span>
+                    <span id="detCabaniaNombre" class="detail-value">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Check-in:</span>
+                    <span id="detCheckIn" class="detail-value">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Check-out:</span>
+                    <span id="detCheckOut" class="detail-value">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Cantidad de Huéspedes:</span>
+                    <span id="detHuespedes" class="detail-value">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Teléfono de contacto:</span>
+                    <span id="detTelefono" class="detail-value">-</span>
+                </div>
+                <div class="detail-row total-row">
+                    <span class="detail-label">Precio Total:</span>
+                    <span id="detPrecioTotal" class="detail-value precio-destacado">$0</span>
+                </div>
+            </div>
+
+            <div class="modal-actions" id="modalAccionesPago" style="display: none;">
+                <button type="button" class="btn-secondary" id="btnCancelarReservaModal">Cancelar Reserva</button>
+                <button type="button" class="btn-primary" id="btnPagarReserva">Abonar Ahora</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script src="../js/header.js"></script>
     <script src="../js/mis-reservas.js"></script>
 </body>

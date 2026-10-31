@@ -116,13 +116,8 @@
                     </div>
 
                     <!-- Tarjeta Visual / Mockup del Mapa -->
-                    <div class="ubicacion-map-card">
-                        <div class="map-placeholder">
-                            <i class="fa-solid fa-map-pin map-pin-icon"></i>
-                            <h4>Ceibos y Azaleas</h4>
-                            <p>Campana, Buenos Aires</p>
-                            <span class="map-hint">Haz clic en el botón para explorar la zona</span>
-                        </div>
+                    <div class="ubicacion-map-card" style="width: 100%; height: 300px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        <iframe src="https://maps.google.com/maps?q=-33.9921539,-58.9722133&z=15&output=embed" style="width: 100%; height: 100%; border: 0;" allowfullscreen="" loading="lazy"></iframe>
                     </div>
                 </div>
             </div>
@@ -181,16 +176,17 @@
                         </div>
                     </div>
 
-                    <!-- Formulario Datos de Contacto & Huéspedes -->
+                  <!-- Formulario Datos de Contacto & Huéspedes -->
                     <div class="modal-form-details">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="cantidadAdultos">Adultos</label>
                                 <select id="cantidadAdultos">
-                                    <option value="1">1 Adulto</option>
-                                    <option value="2" selected>2 Adultos</option>
+                                    <option value="1" selected>1 Adulto</option>
+                                    <option value="2">2 Adultos</option>
                                     <option value="3">3 Adultos</option>
                                     <option value="4">4 Adultos</option>
+                                    <option value="5">5 Adultos</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -199,6 +195,8 @@
                                     <option value="0" selected>0 Niños</option>
                                     <option value="1">1 Niño</option>
                                     <option value="2">2 Niños</option>
+                                    <option value="3">3 Niños</option>
+                                    <option value="4">4 Niños</option>
                                 </select>
                             </div>
                         </div>

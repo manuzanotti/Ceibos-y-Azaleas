@@ -1,15 +1,3 @@
-body.bg-nature {
-    /* Reemplaza 'ruta/a/tu/imagen_4.png' con la ruta real */
-    background-image: url('../images/mi-cuenta.jpg');
-    background-size: cover;          /* Cubre todo el ancho y alto */
-    background-position: center;     /* Centra la imagen */
-    background-repeat: no-repeat;    /* No repite */
-    background-attachment: fixed;    /* El fondo se queda quieto al hacer scroll */
-    
-    /* Opcional: Agrega una capa suave superpuesta para maximizar el contraste */
-    background-blend-mode: overlay;
-    background-color: rgba(255, 255, 255, 0.1); /* Una capa blanca al 10% */
-}
 /* Variables de Estilo */
 :root {
     --bg-color: #f4f1ea;
@@ -33,12 +21,16 @@ body.bg-nature {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--bg-color);
+    background-image: url('../images/mi-cuenta.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-blend-mode: overlay;
+    background-color: rgba(255, 255, 255, 0.1);
     color: var(--text-primary);
     min-height: 100vh;
 }
-
-
 
 /* Main Container & Account Card */
 .main-container {
@@ -84,6 +76,12 @@ body.bg-nature {
     font-size: 2rem;
     color: var(--text-primary);
     font-family: Georgia, serif;
+}
+
+.section-subtitle {
+    margin: 0.3rem 0 0 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
 }
 
 /* Pestañas (Tabs) */
@@ -156,6 +154,16 @@ body.bg-nature {
     box-shadow: 0 0 0 3px rgba(58, 90, 64, 0.15);
 }
 
+/* Inputs Deshabilitados */
+input:disabled, 
+textarea:disabled, 
+select:disabled {
+    background-color: #f3f4f6; 
+    color: #9ca3af;         
+    cursor: not-allowed;        
+    opacity: 1;                 
+}
+
 /* Divisores y Pie de Formulario */
 .divider {
     border: none;
@@ -214,7 +222,80 @@ body.bg-nature {
     background-color: var(--btn-cancel-hover);
 }
 
-/* Diseño Responsive para pantallas pequeñas */
+/* Estilos de la Modal de Contraseña */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 450px;
+    box-shadow: var(--shadow);
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.3rem;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.error-message {
+    background-color: #fee2e2;
+    color: #dc2626;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    margin-bottom: 15px;
+    border: 1px solid #fca5a5;
+    text-align: left;
+    font-weight: 500;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Diseño Responsive */
 @media (max-width: 600px) {
     .form-grid {
         grid-template-columns: 1fr;
@@ -222,9 +303,5 @@ body.bg-nature {
     
     .account-card {
         padding: 1.5rem;
-    }
-    
-    .navbar {
-        padding: 1rem;
     }
 }

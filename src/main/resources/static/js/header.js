@@ -3,15 +3,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     if (headerContainer) {
         try {
-            // Reemplaza la ruta según dónde tengas guardado tu header.html
             const response = await fetch('header.html');
             if (response.ok) {
                 const html = await response.text();
                 headerContainer.innerHTML = html;
 
-                // Una vez insertado el HTML, inicializamos la lógica del menú
+                // Una vez insertado el HTML, inicializamos la lógica
                 inicializarMenuUsuario();
-                cargarNombreUsuario(); // Opcional: para poner el nombre del sessionStorage
+                cargarNombreUsuario(); 
+                marcarEnlaceActivo(); // <- Ahora se ejecuta correctamente de forma global
             } else {
                 console.error('No se pudo cargar el header.');
             }
@@ -27,6 +27,16 @@ function inicializarMenuUsuario() {
     const menuOverlay = document.getElementById('menuOverlay');
     const btnLogout = document.getElementById('btnLogout');
 
+    // --- VALIDACIÓN DEL ROL DE ADMINISTRADOR ---
+    const rolUsuario = sessionStorage.getItem('tipoDeUsuario');
+    const menuAdmin = document.getElementById('menuAdmin'); // Asegúrate que tu enlace de admin en el HTML tenga id="menuAdmin"
+
+    if (rolUsuario && rolUsuario.toUpperCase() === 'ADMINISTRADOR' && menuAdmin) {
+        menuAdmin.style.display = 'flex'; // O 'inline-flex' según tu diseño
+    } else if (menuAdmin) {
+        menuAdmin.style.display = 'none'; // Ocultar si no es admin
+    }
+
     if (!userMenuToggle || !sidebarMenu) return;
 
     // Abrir / Cerrar menú
@@ -37,16 +47,18 @@ function inicializarMenuUsuario() {
     });
 
     // Cerrar con overlay
-    menuOverlay.addEventListener('click', () => {
-        sidebarMenu.classList.remove('active');
-        menuOverlay.classList.remove('active');
-    });
+    if (menuOverlay) {
+        menuOverlay.addEventListener('click', () => {
+            sidebarMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+        });
+    }
 
     // Cerrar con Escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             sidebarMenu.classList.remove('active');
-            menuOverlay.classList.remove('active');
+            if (menuOverlay) menuOverlay.classList.remove('active');
         }
     });
 
@@ -58,7 +70,7 @@ function inicializarMenuUsuario() {
             if (targetUrl && targetUrl.endsWith('.html')) {
                 e.preventDefault();
                 sidebarMenu.classList.remove('active');
-                menuOverlay.classList.remove('active');
+                if (menuOverlay) menuOverlay.classList.remove('active');
                 window.location.href = targetUrl;
             }
         });
@@ -69,7 +81,7 @@ function inicializarMenuUsuario() {
         btnLogout.addEventListener('click', (e) => {
             e.preventDefault();
             sessionStorage.clear();
-            window.location.href = '/html/login.html';
+            window.location.href = 'login.html'; // Ajusta la ruta si es necesario
         });
     }
 }
@@ -78,10 +90,11 @@ function cargarNombreUsuario() {
     const nombreGuardado = sessionStorage.getItem('usuarioNombre');
     const userNameDisplay = document.getElementById('userNameDisplay');
     if (nombreGuardado && userNameDisplay) {
-        userNameDisplay.textContent = `Bienvenido/a, ${nombreGuardado}`;
+        userNameDisplay.textContent = nombreGuardado;
     }
-    
-    function marcarEnlaceActivo() {
+}
+
+function marcarEnlaceActivo() {
     const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
     const navLinks = document.querySelectorAll('.nav-links a');
 
@@ -96,5 +109,4 @@ function cargarNombreUsuario() {
             link.classList.add('active');
         }
     });
-}
 }

@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+   
+
+
     // --------------------------------------------------
     // LÓGICA DE LA MODAL DE RESERVAS (Específica del Dashboard)
     // --------------------------------------------------
@@ -136,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 fechaCheckOut: fechaCheckOut.value,
                 cantidadAdultos: parseInt(document.getElementById('cantidadAdultos')?.value || 1),
                 cantidadMenores: parseInt(document.getElementById('cantidadMenores')?.value || 0),
-                telefono: document.getElementById('telefono')?.value || 'Sin teléfono',
+                telefono: document.getElementById('reservaTelefono')?.value || 'Sin teléfono',
                 precioTotal: precioTotal
             };
 
@@ -156,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     cerrarModal();
                     
                     // 3. Redirigir a la página de Mis Reservas como pediste
-                    window.location.href = 'reservas.html';
+                    window.location.href = 'mis-reservas.html';
                 } else {
                     // Si el backend rechaza por capacidad o solapamiento de fechas
                     const errorMsg = await response.text();

@@ -1,0 +1,461 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Restablecimiento básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f4f6f8;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* Layout Principal */
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar de navegación */
+.admin-sidebar {
+    width: 260px;
+    min-width: 260px;
+    background-color: #2c4c3b;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 25px 20px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+.sidebar-brand {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sidebar-brand h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.sidebar-brand p {
+    font-size: 0.85rem;
+    color: #a3b8ad;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 25px;
+    flex-grow: 1;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: #cfdcd5;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background-color: #1e3529;
+    color: white;
+}
+
+.sidebar-footer {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.btn-volver {
+    color: #cfdcd5;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.2s;
+}
+
+.btn-volver:hover {
+    color: white;
+}
+
+/* Contenido Principal */
+.admin-content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.admin-section {
+    display: none;
+}
+
+.admin-section.active {
+    display: block;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.section-header h2 {
+    color: #1f2937;
+    font-size: 1.8rem;
+}
+
+.section-header p {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+/* Buscador de usuarios */
+.search-box input {
+    padding: 10px 14px;
+    width: 280px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-box input:focus {
+    border-color: #2c4c3b;
+}
+
+/* Estadísticas (KPI Cards) */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.stat-card i {
+    font-size: 2rem;
+    color: #2c4c3b;
+    background: #eef3f0;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.stat-card h4 {
+    font-size: 0.85rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.stat-card span {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* Tablas de Gestión */
+.table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.admin-table th, .admin-table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.admin-table th {
+    background-color: #f9fafb;
+    color: #374151;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.admin-table td {
+    color: #4b5563;
+    font-size: 0.95rem;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.table-empty {
+    text-align: center;
+    color: #6b7280;
+    padding: 25px;
+}
+
+/* Botones y Acciones */
+.btn-primary {
+    background-color: #2c4c3b;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+    flex: 1;
+}
+
+.btn-primary:hover {
+    background-color: #1e3529;
+}
+
+.btn-secondary {
+    background-color: #e5e7eb;
+    color: #374151;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    flex: 1;
+    text-align: center;
+}
+
+.btn-secondary:hover {
+    background-color: #d1d5db;
+}
+
+.btn-danger {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.btn-danger:hover {
+    background-color: #fecaca;
+}
+
+.btn-accion-modificar {
+    background-color: #eef3f0;
+    color: #2c4c3b;
+    border: 1px solid #d1c7bc;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-accion-modificar:hover {
+    background-color: #2c4c3b;
+    color: #ffffff;
+}
+
+/* Modales del Panel de Administración */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content.modal-detalles,
+.modal-content.modal-form-container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 650px;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Corrección: Título del modal centrado */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.modal-header h3 {
+    font-family: Georgia, serif;
+    font-size: 1.3rem;
+    color: #2c332e;
+    width: 100%;
+    text-align: center; /* Centra el texto del título */
+    margin: 0;
+}
+
+/* Botón de cierre posicionado de forma absoluta para no desalinear el título centrado */
+.modal-header .btn-close {
+    position: absolute;
+    right: 0;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 0 5px;
+}
+
+/* Formulario dentro del modal de modificación */
+.modal-form-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.modal-form-body .form-row {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.modal-form-body .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.modal-form-body label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2c332e;
+}
+
+.modal-form-body input,
+.modal-form-body select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1c7bc;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 0.95rem;
+    color: #1f2937;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.modal-form-body input:focus,
+.modal-form-body select:focus {
+    border-color: #2c4c3b;
+    box-shadow: 0 0 0 3px rgba(44, 76, 59, 0.15);
+}
+
+/* Corrección de la botonera inferior del modal de detalles */
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Distribución de la botonera inferior del modal de modificación */
+.modal-actions-split {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.modal-actions-right {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+/* Detalles generales de filas en modales */
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed #e5e7eb;
+}
+
+.detail-label {
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.detail-value {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.total-row {
+    border-top: 2px solid #e5e7eb;
+    margin-top: 5px;
+    padding-top: 15px;
+    border-bottom: none;
+}
+
+.precio-destacado {
+    color: #0f5132;
+    font-size: 1.1rem;
+    font-weight: 700;
+}

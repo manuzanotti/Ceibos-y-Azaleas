@@ -1,0 +1,113 @@
+/* ==========================================
+   ESTILOS DE LA PÁGINA DE AYUDA / FAQ
+========================================== */
+.ayuda-main-container {
+    max-width: 800px;
+    margin: 100px auto 40px auto;
+    padding: 0 20px;
+}
+
+.ayuda-header-center {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.ayuda-title-main {
+    font-family: Georgia, serif;
+    font-size: 2.2rem;
+    color: #2c332e;
+    margin-bottom: 10px;
+}
+
+.ayuda-subtitle-main {
+    color: #6b7280;
+    font-size: 1rem;
+}
+
+/* Contenedor del Acordeón */
+.faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.faq-item {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    border: 1px solid #eae6df;
+    transition: all 0.2s ease;
+}
+
+.faq-item:hover {
+    border-color: #d1c7bc;
+}
+
+/* Botón de la Pregunta */
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 20px;
+    text-align: left;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #2c332e;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    transition: background-color 0.2s;
+}
+
+.faq-question:hover {
+    background-color: #faf9f6;
+}
+
+/* Ícono de flecha */
+.faq-icon {
+    font-size: 0.9rem;
+    color: #6b7280;
+    transition: transform 0.3s ease;
+}
+
+/* Respuesta desplegable */
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 20px;
+    color: #4b5563;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.faq-answer p {
+    margin-bottom: 10px;
+}
+
+.faq-answer ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.faq-answer li {
+    margin-bottom: 5px;
+}
+
+/* Estado activo (cuando se despliega) */
+.faq-item.active .faq-answer {
+    max-height: 300px; /* Altura máxima estimada para el contenido */
+    padding: 0 20px 20px 20px;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
+    color: #0f5132;
+}
+
+.faq-item.active .faq-question {
+    color: #0f5132;
+}
