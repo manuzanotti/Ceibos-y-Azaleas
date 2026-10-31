@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ceibosyazaleas.dto.CabaniaRegistroDto;
 import com.ceibosyazaleas.model.Cabania;
 import com.ceibosyazaleas.service.CabaniaService;
 
@@ -27,12 +28,13 @@ public class CabaniaController {
 
     }
 
-
+    //Metodo para mostrar las cabañas
     @GetMapping
     public ResponseEntity<?> mostrarCabanias(){
         return ResponseEntity.ok(cabaniaService.mostrarCabanias());
     }
 
+    //Metodo para mostrar las cabañas que no estan reservadas.
     @GetMapping("/activas")
     public ResponseEntity<?> mostrarCabaniasActivas(){
        
@@ -40,11 +42,11 @@ public class CabaniaController {
        
     }
 
-
-    @PostMapping("/registrar")
-    public ResponseEntity<?> registrarCabania(@Valid @RequestBody Cabania cabania){
+    //Metodo para crear/registrar una cabaña
+    @PostMapping
+    public ResponseEntity<?> registrarCabania(@Valid @RequestBody CabaniaRegistroDto dto){
         try {
-            Cabania nuevaCabania = cabaniaService.registrarCabania(cabania);
+            Cabania nuevaCabania = cabaniaService.registrarCabania(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevaCabania);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
