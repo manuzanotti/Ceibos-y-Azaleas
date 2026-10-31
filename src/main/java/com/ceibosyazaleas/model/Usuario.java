@@ -56,9 +56,11 @@ public class Usuario {
     @Column (nullable = false)
     private TipoDeUsuario tipoDeUsuario;
 
+    private boolean activo;
 
     public Usuario(){
         this.tipoDeUsuario = TipoDeUsuario.CLIENTE;
+        this.activo = true;
     }
 
 
@@ -131,6 +133,10 @@ public class Usuario {
         return tipoDeUsuario;
     }
 
+    public boolean isActivo() {
+        return activo;
+    
+    }
 
 
     public void setId(long id) {
@@ -183,6 +189,11 @@ public class Usuario {
 
     public void setTipoDeUsuario(TipoDeUsuario tipoDeUsuario) {
         this.tipoDeUsuario = tipoDeUsuario;
+    }
+
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
 

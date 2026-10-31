@@ -31,7 +31,7 @@ public class Cabania {
 
     @NotNull (message = "El precio por noche es obligatorio")
     @Column (nullable = false)
-    private Double precioPorNoche;
+    private float precioPorNoche;
 
     @Column (nullable = false)
     private String comodidades;
@@ -46,7 +46,7 @@ public class Cabania {
     }
 
 
-    public Cabania(String nombre, String descripcion, int capacidad, String comodidades, double precioPorNoche) {
+    public Cabania(String nombre, String descripcion, int capacidad, String comodidades, float precioPorNoche) {
         this();
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -82,7 +82,7 @@ public class Cabania {
     }
 
 
-    public Double getPrecioPorNoche() {
+    public float getPrecioPorNoche() {
         return precioPorNoche;
     }
 
@@ -117,7 +117,7 @@ public class Cabania {
     }
 
 
-    public void setPrecioPorNoche(Double precioPorNoche) {
+    public void setPrecioPorNoche(float precioPorNoche) {
         this.precioPorNoche = precioPorNoche;
     }
 
