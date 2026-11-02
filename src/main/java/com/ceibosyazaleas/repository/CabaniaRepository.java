@@ -13,4 +13,5 @@ public interface CabaniaRepository extends JpaRepository <Cabania, Long> {
 
     List<Cabania> findAllByActivaTrue();
 
+    
 }

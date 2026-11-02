@@ -42,7 +42,7 @@ public class Cabania {
 
 
     public Cabania(){
-        this.activa = true;
+        
     }
 
 
@@ -53,6 +53,7 @@ public class Cabania {
         this.capacidad = capacidad;
         this.comodidades = comodidades;
         this.precioPorNoche = precioPorNoche;
+        this.activa = true;
         
     }
 
