@@ -58,11 +58,10 @@ public class Usuario {
 
     private boolean activo;
 
+    
     public Usuario(){
-        this.tipoDeUsuario = TipoDeUsuario.CLIENTE;
-        this.activo = true;
-    }
 
+    }
 
     
     public Usuario(String nombre, String apellido, String dni, LocalDate fechaNacimiento, String telefono, String email, String password){
@@ -75,7 +74,8 @@ public class Usuario {
         this.setTelefono(telefono);
         this.setEmail(email);
         this.setPassword(password);
-      
+        this.tipoDeUsuario = TipoDeUsuario.CLIENTE;
+        this.activo = true;
     
     }
 
@@ -195,7 +195,7 @@ public class Usuario {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-
+  
 
 
 

@@ -14,7 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.FutureOrPresent;
+//import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
@@ -37,14 +37,14 @@ public class Reserva {
     private Usuario usuario;
     
     @NotNull(message = "La fecha de check-in es obligatoria")
-    @FutureOrPresent(message = "La fecha de entrada no puede ser del pasado")
+    //@FutureOrPresent(message = "La fecha de entrada no puede ser del pasado")
     @Column(nullable = false)
     private LocalDate checkIn;
     
     
     @NotNull(message = "La fecha de check-out es obligatoria")
     @Column(nullable = false)
-    private LocalDate chekOut;
+    private LocalDate checkOut;
     
     @Min(value = 1, message = "Debe haber al menos 1 adulto")
     @Column(nullable = false)
@@ -75,13 +75,13 @@ public class Reserva {
     
 
 
-    public Reserva(Cabania cabania, Usuario usuario,LocalDate checkIn,LocalDate chekOut,int cantidadAdultos,
+    public Reserva(Cabania cabania, Usuario usuario,LocalDate checkIn,LocalDate checkOut,int cantidadAdultos,
          int cantidadMenores,String telefono, Double precioTotal) {
         this();
         this.cabania = cabania;
         this.usuario = usuario;
         this.checkIn = checkIn;
-        this.chekOut = chekOut;
+        this.checkOut = checkOut;
         this.cantidadAdultos = cantidadAdultos;
         this.cantidadMenores = cantidadMenores;
         this.telefono = telefono;
@@ -116,8 +116,8 @@ public class Reserva {
 
 
 
-    public LocalDate getChekOut() {
-        return chekOut;
+    public LocalDate getCheckOut() {
+        return checkOut;
     }
 
 
@@ -181,8 +181,8 @@ public class Reserva {
 
 
 
-    public void setChekOut(LocalDate chekOut) {
-        this.chekOut = chekOut;
+    public void setCheckOut(LocalDate checkOut) {
+        this.checkOut = checkOut;
     }
 
 
@@ -224,6 +224,14 @@ public class Reserva {
 
     public void setFechaCreacion(LocalDateTime fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
+    }
+
+
+
+
+
+    public Long getCabaniaId() {
+        return this.getCabania().getId();
     }
 
 
