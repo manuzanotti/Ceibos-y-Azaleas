@@ -23,14 +23,14 @@
                         <i class="fa-solid fa-user"></i> Mi Cuenta
                     </a>
                 </li>
-                <li >
+                <li class="active">
                     <a href="mis-reservas.html">
                         <i class="fa-solid fa-calendar-check"></i> Mis Reservas
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <i class="fa-solid fa-star"></i> Reseñas
+                    <a href="mis-resenias.html">
+                        <i class="fa-solid fa-star"></i> Mis Reseñas
                     </a>
                 </li>
                 <li>
@@ -103,12 +103,13 @@
                                     <th>Noches</th>
                                     <th>Total</th>
                                     <th>Estado</th>
+                                    <th>Acción</th>
                                 </tr>
                             </thead>
                             <tbody id="tablaHistorialBody">
                                 <!-- Se llena dinámicamente con JS o datos cargados -->
                                 <tr>
-                                    <td colspan="5" class="table-empty">Cargando reservas...</td>
+                                    <td colspan="6" class="table-empty">Cargando reservas...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -172,6 +173,49 @@
                 <button type="button" class="btn-secondary" id="btnCancelarReservaModal">Cancelar Reserva</button>
                 <button type="button" class="btn-primary" id="btnPagarReserva">Abonar Ahora</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal para Dejar Reseña -->
+    <div class="modal-overlay" id="modalCrearResena">
+        <div class="modal-content modal-detalles">
+            <div class="modal-header">
+                <h3>Escribir Reseña</h3>
+                <button class="btn-close" id="btnCloseModalResena">&times;</button>
+            </div>
+            
+            <form id="formCrearResena">
+                <input type="hidden" id="inputReservaId">
+                
+                <div class="detail-row" style="margin-bottom: 1rem;">
+                    <span class="detail-label">Cabaña:</span>
+                    <span id="modalCabaniaNombre" class="detail-value">-</span>
+                </div>
+
+                <!-- Selector de Estrellas Interactivo -->
+                <div class="detail-row" style="flex-direction: column; align-items: flex-start; gap: 0.5rem; margin-bottom: 1rem;">
+                    <span class="detail-label">Puntuación:</span>
+                    <div class="star-rating-input" id="starContainer" style="font-size: 1.5rem; color: #ffc107; cursor: pointer;">
+                        <i class="fa-solid fa-star" data-value="1"></i>
+                        <i class="fa-solid fa-star" data-value="2"></i>
+                        <i class="fa-solid fa-star" data-value="3"></i>
+                        <i class="fa-solid fa-star" data-value="4"></i>
+                        <i class="fa-solid fa-star" data-value="5"></i>
+                    </div>
+                    <input type="hidden" id="inputPuntuacion" value="5">
+                </div>
+
+                <!-- Textarea para el comentario -->
+                <div class="detail-row" style="flex-direction: column; align-items: flex-start; gap: 0.5rem; margin-bottom: 1.5rem;">
+                    <span class="detail-label">Comentario:</span>
+                    <textarea id="inputComentario" rows="4" placeholder="Cuéntanos cómo fue tu experiencia..." required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #d8d3c8; font-family: inherit; resize: vertical; box-sizing: border-box;"></textarea>
+                </div>
+
+                <div class="modal-actions" style="display: flex; justify-content: flex-end; gap: 1rem;">
+                    <button type="button" class="btn-secondary" id="btnCancelarResena">Cancelar</button>
+                    <button type="submit" class="btn-primary">Enviar Reseña</button>
+                </div>
+            </form>
         </div>
     </div>
 

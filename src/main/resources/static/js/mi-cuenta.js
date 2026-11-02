@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Verificar si hay un usuario logueado en sessionStorage
     const usuarioId = sessionStorage.getItem('usuarioId');
     
     // Si no hay sesión activa, redirigir al login
@@ -19,6 +20,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const formMiCuenta = document.getElementById('formMiCuenta');
     const userInitial = document.getElementById('userInitial');
+
+    // Función auxiliar para mostrar mensajes visuales de la cuenta en lugar de alert()
+    function mostrarMensajeCuenta(mensaje, tipo = 'exito') {
+        let alertContainer = document.getElementById('mensajeAlertaCuenta');
+        if (!alertContainer) {
+            alertContainer = document.createElement('div');
+            alertContainer.id = 'mensajeAlertaCuenta';
+            alertContainer.style.padding = '10px 14px';
+            alertContainer.style.borderRadius = '6px';
+            alertContainer.style.fontSize = '0.9rem';
+            alertContainer.style.marginBottom = '15px';
+            alertContainer.style.fontWeight = '500';
+            
+            if (formMiCuenta) formMiCuenta.prepend(alertContainer);
+        }
+
+        if (tipo === 'exito') {
+            alertContainer.style.backgroundColor = '#d1e7dd';
+            alertContainer.style.color = '#0f5132';
+            alertContainer.style.border = '1px solid #badbcc';
+        } else {
+            alertContainer.style.backgroundColor = '#f8d7da';
+            alertContainer.style.color = '#842029';
+            alertContainer.style.border = '1px solid #f5c2c7';
+        }
+
+        alertContainer.textContent = mensaje;
+        alertContainer.style.display = 'block';
+
+        setTimeout(() => {
+            if (alertContainer) alertContainer.style.display = 'none';
+        }, 4000);
+    }
 
     // Cargar datos actuales del usuario
     async function cargarDatosUsuario() {
@@ -54,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cargarDatosUsuario();
 
-    // Enviar formulario de actualización de datos
+    // Enviar formulario de actualización de datos (Sin alert nativo)
     if (formMiCuenta) {
         formMiCuenta.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -76,15 +110,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
-                    alert('¡Tus datos han sido actualizados con éxito!');
+                    mostrarMensajeCuenta('¡Tus datos han sido actualizados con éxito!', 'exito');
                     cargarDatosUsuario();
                 } else {
                     const errorMsg = await response.text();
-                    alert('No se pudo actualizar: ' + errorMsg);
+                    mostrarMensajeCuenta('No se pudo actualizar: ' + errorMsg, 'error');
                 }
             } catch (error) {
                 console.error('Error de red:', error);
-                alert('Error de conexión con el servidor.');
+                mostrarMensajeCuenta('Error de conexión con el servidor.', 'error');
             }
         });
     }
@@ -172,11 +206,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
-                    alert('¡Contraseña actualizada con éxito!');
-                    cerrarModalPass();
+                    // Para el cambio de contraseña usamos el errorMessage del modal pero con estilo de éxito o un aviso visual limpio
+                    if (errorMessage) {
+                        errorMessage.style.backgroundColor = '#d1e7dd';
+                        errorMessage.style.color = '#0f5132';
+                        errorMessage.style.border = '1px solid #badbcc';
+                        errorMessage.textContent = '¡Contraseña actualizada con éxito!';
+                        errorMessage.style.display = 'block';
+                    }
+                    setTimeout(() => {
+                        cerrarModalPass();
+                    }, 1200);
                 } else {
                     const errorMsg = await response.text();
                     if (errorMessage) {
+                        errorMessage.style.backgroundColor = '#f8d7da';
+                        errorMessage.style.color = '#842029';
+                        errorMessage.style.border = '1px solid #f5c2c7';
                         errorMessage.textContent = errorMsg || 'No se pudo actualizar la contraseña.';
                         errorMessage.style.display = 'block';
                     }
@@ -184,6 +230,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 console.error('Error de red:', error);
                 if (errorMessage) {
+                    errorMessage.style.backgroundColor = '#f8d7da';
+                    errorMessage.style.color = '#842029';
+                    errorMessage.style.border = '1px solid #f5c2c7';
                     errorMessage.textContent = 'Error de conexión con el servidor.';
                     errorMessage.style.display = 'block';
                 }

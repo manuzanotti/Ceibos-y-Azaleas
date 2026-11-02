@@ -1,8 +1,42 @@
-    // ==========================================
+// ==========================================
     // 2. GESTIÓN DE USUARIOS
     // ==========================================
     let listaUsuariosGlobal = [];
     let usuarioIdEnEdicion = null;
+
+    // Función auxiliar para mostrar mensajes visuales dentro del modal de usuarios
+    function mostrarMensajeModalUsuario(mensaje, tipo = 'exito') {
+        let alertContainer = document.getElementById('mensajeModalUsuario');
+        if (!alertContainer) {
+            alertContainer = document.createElement('div');
+            alertContainer.id = 'mensajeModalUsuario';
+            alertContainer.style.padding = '10px 14px';
+            alertContainer.style.borderRadius = '6px';
+            alertContainer.style.fontSize = '0.9rem';
+            alertContainer.style.marginBottom = '15px';
+            alertContainer.style.fontWeight = '500';
+            
+            const form = document.getElementById('formModificarUsuario');
+            if (form) form.prepend(alertContainer);
+        }
+
+        if (tipo === 'exito') {
+            alertContainer.style.backgroundColor = '#d1e7dd';
+            alertContainer.style.color = '#0f5132';
+            alertContainer.style.border = '1px solid #badbcc';
+        } else {
+            alertContainer.style.backgroundColor = '#f8d7da';
+            alertContainer.style.color = '#842029';
+            alertContainer.style.border = '1px solid #f5c2c7';
+        }
+
+        alertContainer.textContent = mensaje;
+        alertContainer.style.display = 'block';
+
+        setTimeout(() => {
+            if (alertContainer) alertContainer.style.display = 'none';
+        }, 4000);
+    }
 
     async function cargarUsuariosAdmin() {
         try {
@@ -121,6 +155,10 @@
         document.getElementById('modUserDetIdTitulo').textContent = id;
         document.getElementById('modUsuarioId').value = id;
 
+        // Limpiamos avisos previos en el modal
+        const alertContainer = document.getElementById('mensajeModalUsuario');
+        if (alertContainer) alertContainer.style.display = 'none';
+
         document.getElementById('modUserNombre').value = usuario.nombre || '';
         document.getElementById('modUserApellido').value = usuario.apellido || '';
         document.getElementById('modUserDni').value = usuario.dni || usuario.pasaporte || '';
@@ -156,7 +194,7 @@
                 dni: document.getElementById('modUserDni').value,
                 telefono: document.getElementById('modUserTelefono').value,
                 email: document.getElementById('modUserMail').value,
-                tipoDeUsuario: document.getElementById('modUserTipo').value.toUpperCase(), // Aseguramos que coincida con el backend y el Enum (ej: CLIENTE / ADMINISTRADOR)
+                tipoDeUsuario: document.getElementById('modUserTipo').value.toUpperCase(),
                 activo: document.getElementById('modUserEstado').value === 'Habilitada'
             };
 
@@ -168,42 +206,37 @@
                 });
 
                 if (response.ok) {
-                    alert('¡Usuario modificado con éxito!');
-                    cerrarModalModificarUsuario();
-                    cargarUsuariosAdmin();
+                    mostrarMensajeModalUsuario('¡Usuario modificado con éxito!', 'exito');
+                    setTimeout(() => {
+                        cerrarModalModificarUsuario();
+                        cargarUsuariosAdmin();
+                    }, 1200);
                 } else {
                     const err = await response.text();
-                    alert('No se pudo modificar el usuario: ' + err);
+                    mostrarMensajeModalUsuario('No se pudo modificar el usuario: ' + err, 'error');
                 }
             } catch (error) {
                 console.error('Error de red:', error);
-                alert('Error de conexión con el servidor.');
+                mostrarMensajeModalUsuario('Error de conexión con el servidor.', 'error');
             }
         });
     }
 
-// Botón Dar de baja usuario (Elimina sus reservas asociadas primero y luego al usuario)
+    // Botón Dar de baja usuario (Sin confirm() nativo, avisos visuales directos)
     if (btnAdminDarBajaUsuario) {
         btnAdminDarBajaUsuario.addEventListener('click', async () => {
             if (!usuarioIdEnEdicion) return;
-            
-            if (!confirm(`¿Estás seguro de que deseas eliminar permanentemente al usuario #${usuarioIdEnEdicion}?\n\n⚠️ Esta acción borrará también todas las reservas asociadas a este usuario de forma permanente.`)) {
-                return;
-            }
 
             try {
-                // 1. Obtenemos todas las reservas para filtrar las que pertenecen a este usuario
                 const resReservas = await fetch('/api/reservas');
                 if (resReservas.ok) {
                     const reservas = await resReservas.json();
                     
-                    // Filtramos las reservas del usuario (manejando si viene el objeto usuario o solo el ID)
                     const reservasDelUsuario = reservas.filter(r => {
                         const idUserRelacionado = r.usuario ? r.usuario.id : r.usuarioId;
                         return idUserRelacionado === usuarioIdEnEdicion;
                     });
 
-                    // 2. Borramos cada reserva asociada para liberar la restricción de clave foránea
                     for (const reserva of reservasDelUsuario) {
                         await fetch(`/api/reservas/${reserva.id}`, {
                             method: 'DELETE'
@@ -211,25 +244,28 @@
                     }
                 }
 
-                // 3. Una vez eliminadas las reservas dependientes, borramos al usuario
                 const response = await fetch(`/api/usuarios/${usuarioIdEnEdicion}`, {
                     method: 'DELETE'
                 });
 
                 if (response.ok) {
-                    alert('Usuario y sus reservas asociadas eliminados correctamente.');
-                    cerrarModalModificarUsuario();
-                    cargarUsuariosAdmin();
-                    cargarReservasAdmin(); // Actualizamos la tabla de reservas de fondo
+                    mostrarMensajeModalUsuario('Usuario y sus reservas asociadas eliminados correctamente.', 'exito');
+                    setTimeout(() => {
+                        cerrarModalModificarUsuario();
+                        cargarUsuariosAdmin();
+                        if (typeof cargarReservasAdmin === 'function') {
+                            cargarReservasAdmin();
+                        }
+                    }, 1200);
                 } else {
                     const errorMsg = await response.text();
-                    alert('No se pudo eliminar el usuario: ' + errorMsg);
+                    mostrarMensajeModalUsuario('No se pudo eliminar el usuario: ' + errorMsg, 'error');
                 }
             } catch (error) {
                 console.error('Error de red:', error);
-                alert('Error de conexión con el servidor.');
+                mostrarMensajeModalUsuario('Error de conexión con el servidor.', 'error');
             }
         });
-    
     }
+
     cargarUsuariosAdmin();

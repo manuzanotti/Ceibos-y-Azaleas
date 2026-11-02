@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Reseñas - Ceibos y Azaleas</title>
+    <!-- Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/mis-reservas.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/mis-resenias.css">
+</head>
+<body class="bg-nature">
+    
+    <!-- Header dinámico -->
+    <div id="header-container"></div>
+
+    <main class="main-container account-layout">
+        
+        <!-- Sidebar de Navegación Interna -->
+        <aside class="account-sidebar">
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="mi-cuenta.html">
+                        <i class="fa-solid fa-user"></i> Mi Cuenta
+                    </a>
+                </li>
+                <li>
+                    <a href="mis-reservas.html">
+                        <i class="fa-solid fa-calendar-check"></i> Mis Reservas
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="mis-resenias.html">
+                        <i class="fa-solid fa-star"></i> Mis Reseñas
+                    </a>
+                </li>
+                <li>
+                    <a href="ayuda.html">
+                        <i class="fa-solid fa-circle-question"></i> Ayuda
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Contenido Central de Reseñas -->
+        <section class="account-content">
+            <div class="account-card">
+                
+                <div class="section-header">
+                    <h1 class="account-title">Reseñas de Mis Estadías</h1>
+                    <p class="section-subtitle">Visualiza y administra las valoraciones que has dejado sobre tus visitas al complejo</p>
+                </div>
+
+                <!-- Tarjeta Principal: Reseña Destacada / Seleccionada (Inicialmente oculta o en blanco hasta que carguen datos) -->
+                <div class="featured-reservation-card" id="cardResenaDestacada" style="display: none;">
+                    <div class="badge-status confirmada" id="badgeEstadoResena">Publicada</div>
+                    <div class="reserva-card-grid">
+                        <div class="reserva-img-container">
+                            <img src="../images/cabania-modelo.jpg" alt="Cabaña Reseñada" id="imgCabaniaResena">
+                        </div>
+                        <div class="reserva-details">
+                            <span class="reserva-label">Reseña Seleccionada</span>
+                            <h2 class="cabana-nombre" id="nombreCabaniaResena">-</h2>
+                            
+                            <div class="reserva-info-grid">
+                                <div class="info-block">
+                                    <i class="fa-regular fa-calendar-check"></i>
+                                    <div>
+                                        <small>Fecha de Estadía</small>
+                                        <p id="fechasEstadiaResena">-- / --</p>
+                                    </div>
+                                </div>
+                                <div class="info-block">
+                                    <i class="fa-solid fa-star" style="color: #ffc107;"></i>
+                                    <div>
+                                        <small>Puntuación</small>
+                                        <p id="puntuacionEstrellasResena">-</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Caja de Comentario de la Reseña -->
+                            <div class="resena-comentario-box" id="textoComentarioResena">
+                                -
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensaje alternativo cuando no hay reseñas -->
+                <div id="noResenasContainer" class="table-empty" style="display: none; padding: 3rem; text-align: center; background: #fdfcf7; border-radius: 12px; border: 1px solid #d8d3c8; margin-bottom: 2rem;">
+                    <i class="fa-solid fa-star" style="font-size: 2.5rem; color: #b7b0a2; margin-bottom: 1rem;"></i>
+                    <p style="color: #606862; font-size: 1.1rem; margin: 0;">Aún no has realizado ninguna reseña sobre tus estadías.</p>
+                </div>
+
+                <!-- Tabla Historial de Reseñas -->
+                <div class="historial-section">
+                    <h3 class="historial-title"><i class="fa-solid fa-clock-rotate-left"></i> Historial de Reseñas</h3>
+                    
+                    <div class="table-responsive">
+                        <table class="reservas-table">
+                            <thead>
+                                <tr>
+                                    <th>Cabaña</th>
+                                    <th>Estadía</th>
+                                    <th>Puntuación</th>
+                                    <th>Comentario</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaHistorialResenas">
+                                <tr>
+                                    <td colspan="4" class="table-empty">Cargando reseñas...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="../js/header.js"></script>
+    <script src="../js/mis-resenias.js"></script>
+</body>
+</html>

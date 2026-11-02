@@ -12,20 +12,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function cargarEstadisticasGenerales() {
     try {
-        // 1. Obtener Reservas, Cabañas y Usuarios en paralelo
-        const [resReservas, resCabanias, resUsuarios] = await Promise.all([
+        // 1. Obtener Reservas, Cabañas, Usuarios y Reseñas en paralelo
+        const [resReservas, resCabanias, resUsuarios, resResenias] = await Promise.all([
             fetch('/api/reservas'),
             fetch('/api/cabanias'),
-            fetch('/api/usuarios')
+            fetch('/api/usuarios'),
+            fetch('/api/resenas/publicas')
         ]);
 
         let reservas = [];
         let cabanias = [];
         let usuarios = [];
+        let resenias = [];
 
         if (resReservas.ok) reservas = await resReservas.json();
         if (resCabanias.ok) cabanias = await resCabanias.json();
         if (resUsuarios.ok) usuarios = await resUsuarios.json();
+        if (resResenias.ok) resenias = await resResenias.json();
 
         // 2. Actualizar Métricas Superiores
         const statReservas = document.getElementById('statReservas');
@@ -48,20 +51,19 @@ async function cargarEstadisticasGenerales() {
         }
 
         // 3. Renderizar los Gráficos con Chart.js
-        renderizarGraficos(reservas, cabanias);
+        renderizarGraficos(reservas, cabanias, resenias);
 
     } catch (error) {
         console.error('Error al cargar las estadísticas:', error);
     }
 }
 
-function renderizarGraficos(reservas, cabanias) {
+function renderizarGraficos(reservas, cabanias, resenias) {
     // ----------------------------------------------------
     // Gráfico 1: Reservas por Cabaña (Gráfico de Barras)
     // ----------------------------------------------------
     const ctxReservas = document.getElementById('chartReservasCabana');
     if (ctxReservas) {
-        // Mapear nombres de cabañas y contar cuántas reservas tiene cada una
         const nombresCabanias = cabanias.map(c => c.nombre);
         const conteoReservas = cabanias.map(c => {
             return reservas.filter(r => {
@@ -92,14 +94,23 @@ function renderizarGraficos(reservas, cabanias) {
     }
 
     // ----------------------------------------------------
-    // Gráfico 2: Calificación de Cabañas (Gráfico de Líneas / Radar o Promedio)
+    // Gráfico 2: Calificación Real de Cabañas (Basado en Reseñas)
     // ----------------------------------------------------
     const ctxCalificaciones = document.getElementById('chartCalificacionesCabana');
     if (ctxCalificaciones) {
-        // Como las calificaciones dependen de si tienes un sistema de reviews implementado, 
-        // colocamos valores de ejemplo o neutros si aún no hay un endpoint de reseñas.
         const nombresCabanias = cabanias.map(c => c.nombre);
-        const calificacionesEjemplo = cabanias.map(() => 5.0); // Calificación por defecto o simulada
+        
+        // Calcular el promedio real de puntuación para cada cabaña basándonos en las reseñas
+        const calificacionesReales = cabanias.map(c => {
+            const reseniasCabania = resenias.filter(r => 
+                (r.cabaniaNombre || '').toLowerCase() === (c.nombre || '').toLowerCase()
+            );
+            
+            if (reseniasCabania.length === 0) return 0; // Si no tiene reseñas, arranca en 0 o un valor neutro
+            
+            const sumaPuntuaciones = reseniasCabania.reduce((acc, curr) => acc + (curr.puntuacion || 0), 0);
+            return parseFloat((sumaPuntuaciones / reseniasCabania.length).toFixed(1));
+        });
 
         if (chartCalificacionesCabanaInstance) chartCalificacionesCabanaInstance.destroy();
 
@@ -108,18 +119,30 @@ function renderizarGraficos(reservas, cabanias) {
             data: {
                 labels: nombresCabanias.length > 0 ? nombresCabanias : ['Sin Cabañas'],
                 datasets: [{
-                    label: 'Calificación Promedio',
-                    data: calificacionesEjemplo,
+                    label: 'Calificación Promedio (Estrellas)',
+                    data: calificacionesReales.length > 0 ? calificacionesReales : [0],
                     borderColor: '#ffc107',
-                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    backgroundColor: 'rgba(255, 193, 7, 0.15)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#ffc107',
+                    pointRadius: 5,
                     fill: true,
-                    tension: 0.3
+                    tension: 0.35
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                scales: { y: { min: 0, max: 5 } }
+                scales: { 
+                    y: { 
+                        min: 0, 
+                        max: 5,
+                        ticks: { stepSize: 1 }
+                    } 
+                },
+                plugins: {
+                    legend: { display: true, position: 'bottom' }
+                }
             }
         });
     }
@@ -132,16 +155,17 @@ function renderizarGraficos(reservas, cabanias) {
         const confirmadas = reservas.filter(r => (r.estado || '').toUpperCase() === 'CONFIRMADA').length;
         const pendientes = reservas.filter(r => (r.estado || '').toUpperCase() === 'PENDIENTE').length;
         const canceladas = reservas.filter(r => (r.estado || '').toUpperCase() === 'CANCELADA').length;
+        const finalizadas = reservas.filter(r => (r.estado || '').toUpperCase() === 'FINALIZADA').length;
 
         if (chartEstadoReservasInstance) chartEstadoReservasInstance.destroy();
 
         chartEstadoReservasInstance = new Chart(ctxEstado, {
             type: 'doughnut',
             data: {
-                labels: ['Confirmadas', 'Pendientes', 'Canceladas'],
+                labels: ['Confirmadas', 'Pendientes', 'Canceladas', 'Finalizadas'],
                 datasets: [{
-                    data: [confirmadas, pendientes, canceladas],
-                    backgroundColor: ['#198754', '#ffc107', '#dc3545']
+                    data: [confirmadas, pendientes, canceladas, finalizadas],
+                    backgroundColor: ['#198754', '#ffc107', '#dc3545', '#6c757d']
                 }]
             },
             options: {

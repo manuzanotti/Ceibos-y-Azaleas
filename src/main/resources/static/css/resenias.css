@@ -1,0 +1,183 @@
+/* ==========================================
+   ESTILOS PARA RESEÑAS GENERALES (resenas-generales.css)
+   ========================================== */
+
+/* Fondo de naturaleza (mantiene la coherencia global) */
+body.bg-nature {
+    background-image: url('../images/reservas.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-blend-mode: overlay;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Contenedor principal centrado estilo historial */
+.resenas-main-container {
+    background-color: rgba(252, 251, 250, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(216, 211, 200, 0.8);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    
+    max-width: 1100px;
+    margin: 100px auto 40px auto;
+    padding: 3rem 2.5rem;
+}
+
+/* Cabecera centrada */
+.resenas-header-center {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.resenas-title-main {
+    font-size: 2.2rem;
+    font-family: Georgia, serif;
+    color: var(--text-primary, #2c332e);
+    margin-bottom: 0.5rem;
+}
+
+.resenas-subtitle-main {
+    color: var(--text-secondary, #606862);
+    font-size: 1.05rem;
+    margin: 0;
+}
+
+/* Caja y Tabla estilizada */
+.resenas-table-box {
+    background: white;
+    border: 1px solid var(--border-color, #d8d3c8);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.tabla-resenas-estilizada {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.tabla-resenas-estilizada th {
+    background-color: #f7f5f0;
+    color: var(--text-primary, #2c332e);
+    padding: 1.2rem 1rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--border-color, #d8d3c8);
+}
+
+.tabla-resenas-estilizada td {
+    padding: 1.1rem 1rem;
+    border-bottom: 1px solid #eef0ec;
+    color: var(--text-secondary, #606862);
+    vertical-align: middle;
+}
+
+.tabla-resenas-estilizada tbody tr {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.tabla-resenas-estilizada tbody tr:hover {
+    background-color: #f9f8f6;
+}
+
+.tabla-resenas-estilizada tr:last-child td {
+    border-bottom: none;
+}
+
+.table-empty {
+    text-align: center;
+    color: var(--text-secondary, #606862);
+    padding: 3rem !important;
+}
+
+/* Estrellas en la tabla general */
+.estrellas-cell {
+    color: #ffc107;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-weight: 500;
+}
+
+.estrellas-cell span {
+    color: #6c757d;
+    font-size: 0.85rem;
+    margin-left: 0.4rem;
+}
+
+/* Estilos de la Modal heredados de la estructura general */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content.modal-detalles {
+    background: #fcfbfa;
+    padding: 2.5rem;
+    border-radius: 16px;
+    border: 1px solid #d8d3c8;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #d8d3c8;
+    padding-bottom: 1rem;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #2c332e;
+    font-size: 1.3rem;
+    font-family: Georgia, serif;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #606862;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px dashed #d8d3c8;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #606862;
+    font-size: 0.95rem;
+}
+
+.detail-value {
+    color: #2c332e;
+    font-weight: 500;
+}

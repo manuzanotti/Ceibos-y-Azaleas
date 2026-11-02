@@ -1,0 +1,53 @@
+/* ==========================================
+   ESTILOS ESPECÍFICOS PARA LA SECCIÓN DE RESEÑAS (resenas.css)
+   ========================================== */
+
+/* Caja del comentario de la reseña en la tarjeta destacada */
+.resena-comentario-box {
+    background-color: var(--input-bg, #f7f5f0);
+    border-left: 4px solid var(--accent-green, #3a5a40);
+    padding: 1.2rem;
+    border-radius: 0 var(--radius-md, 10px) var(--radius-md, 10px) 0;
+    font-style: italic;
+    color: var(--text-primary, #2c332e);
+    line-height: 1.6;
+    font-size: 1rem;
+    margin-top: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+/* Estilos para las estrellas de puntuación dentro de la tabla */
+.reservas-table td div {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+}
+
+.reservas-table td i.fa-star {
+    color: #ffc107; /* Color dorado característico */
+}
+
+/* Interactividad de las filas en la tabla de historial */
+.reservas-table tbody tr {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.reservas-table tbody tr:hover {
+    background-color: rgba(247, 245, 240, 0.8);
+}
+
+/* Resaltar la fila de la reseña seleccionada */
+.reservas-table tr.fila-activa {
+    background-color: #f0ede6 !important;
+    font-weight: 500;
+    box-shadow: inset 4px 0 0 var(--accent-green, #3a5a40);
+}
+
+/* Ajustes responsivos para pantallas pequeñas */
+@media (max-width: 768px) {
+    .resena-comentario-box {
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+}

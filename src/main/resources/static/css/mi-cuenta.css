@@ -1,307 +1,613 @@
 /* Variables de Estilo */
+
 :root {
+
     --bg-color: #f4f1ea;
+
     --card-bg: #fcfbfa;
+
     --text-primary: #2c332e;
+
     --text-secondary: #606862;
+
     --accent-green: #3a5a40;
+
     --accent-green-hover: #2f4833;
+
     --border-color: #d8d3c8;
+
     --input-bg: #f7f5f0;
+
     --btn-cancel: #8a8d8a;
+
     --btn-cancel-hover: #737673;
+
     --radius-lg: 16px;
+
     --radius-md: 10px;
+
     --radius-sm: 6px;
+
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
 }
+
+
 
 /* Reset Básico y Fondo */
+
 body.bg-nature {
+
     margin: 0;
+
     padding: 0;
+
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
     background-image: url('../images/mi-cuenta.jpg');
+
     background-size: cover;
+
     background-position: center;
+
     background-repeat: no-repeat;
+
     background-attachment: fixed;
+
     background-blend-mode: overlay;
+
     background-color: rgba(255, 255, 255, 0.1);
+
     color: var(--text-primary);
+
     min-height: 100vh;
+
 }
+
+
 
 /* Main Container & Account Card */
+
 .main-container {
+
     display: flex;
+
     justify-content: center;
+
     padding: 3rem 1.5rem;
+
 }
+
+
 
 .account-card {
+
     background-color: var(--card-bg);
+
     width: 100%;
+
     max-width: 850px;
+
     border-radius: var(--radius-lg);
+
     border: 1px solid var(--border-color);
+
     box-shadow: var(--shadow);
+
     padding: 2.5rem;
+
 }
+
+
 
 /* Header del Panel */
+
 .account-header {
+
     display: flex;
+
     align-items: center;
+
     gap: 1.2rem;
+
     margin-bottom: 2rem;
+
 }
+
+
 
 .user-avatar-large {
+
     width: 65px;
+
     height: 65px;
+
     border-radius: 50%;
+
     background-color: #e3ded5;
+
     color: var(--accent-green);
+
     font-size: 1.8rem;
+
     font-weight: 700;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
     border: 1px solid var(--border-color);
+
 }
+
+
 
 .account-title {
+
     margin: 0;
+
     font-size: 2rem;
+
     color: var(--text-primary);
+
     font-family: Georgia, serif;
+
 }
+
+
 
 .section-subtitle {
+
     margin: 0.3rem 0 0 0;
+
     color: var(--text-secondary);
+
     font-size: 0.95rem;
+
 }
+
+
 
 /* Pestañas (Tabs) */
+
 .account-tabs {
+
     display: flex;
+
     gap: 2rem;
+
     border-bottom: 2px solid var(--border-color);
+
     margin-bottom: 2rem;
+
 }
+
+
 
 .tab-btn {
+
     background: none;
+
     border: none;
+
     padding: 0.8rem 0;
+
     font-size: 1rem;
+
     font-weight: 600;
+
     color: var(--text-secondary);
+
     cursor: pointer;
+
     position: relative;
+
     transition: color 0.2s ease;
+
 }
+
+
 
 .tab-btn.active {
+
     color: var(--accent-green);
+
 }
+
+
 
 .tab-btn.active::after {
+
     content: '';
+
     position: absolute;
+
     bottom: -2px;
+
     left: 0;
+
     width: 100%;
+
     height: 3px;
+
     background-color: var(--accent-green);
+
     border-radius: 2px;
+
 }
+
+
 
 /* Grid del Formulario */
+
 .form-grid {
+
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     gap: 1.5rem;
+
 }
+
+
 
 .form-group {
+
     display: flex;
+
     flex-direction: column;
+
     gap: 0.4rem;
+
 }
+
+
 
 .form-group label {
+
     font-size: 0.9rem;
+
     font-weight: 600;
+
     color: var(--text-primary);
+
 }
+
+
 
 .form-group input {
+
     padding: 0.8rem 1rem;
+
     border: 1px solid var(--border-color);
+
     border-radius: var(--radius-md);
+
     background-color: var(--input-bg);
+
     font-size: 0.95rem;
+
     color: var(--text-primary);
+
     outline: none;
+
     transition: border-color 0.2s, box-shadow 0.2s;
+
 }
+
+
 
 .form-group input:focus {
+
     border-color: var(--accent-green);
+
     box-shadow: 0 0 0 3px rgba(58, 90, 64, 0.15);
+
 }
+
+
 
 /* Inputs Deshabilitados */
-input:disabled, 
-textarea:disabled, 
+
+input:disabled,
+
+textarea:disabled,
+
 select:disabled {
-    background-color: #f3f4f6; 
-    color: #9ca3af;         
+
+    background-color: #f3f4f6;
+
+    color: #9ca3af;        
+
     cursor: not-allowed;        
-    opacity: 1;                 
+
+    opacity: 1;                
+
 }
+
+
 
 /* Divisores y Pie de Formulario */
+
 .divider {
+
     border: none;
+
     border-top: 1px solid var(--border-color);
+
     margin: 2rem 0 1.5rem 0;
+
 }
+
+
 
 .form-footer-info h3 {
+
     margin: 0 0 0.3rem 0;
+
     font-size: 1.1rem;
+
     color: var(--text-primary);
+
 }
+
+
 
 .form-footer-info p {
+
     margin: 0 0 1.5rem 0;
+
     font-size: 0.9rem;
+
     color: var(--text-secondary);
+
 }
+
+
 
 /* Botones de Acción */
+
 .form-actions {
+
     display: flex;
+
     justify-content: flex-end;
+
     gap: 1rem;
+
 }
+
+
 
 .btn-primary {
+
     background-color: var(--accent-green);
+
     color: white;
+
     border: none;
+
     padding: 0.8rem 1.8rem;
+
     font-size: 0.95rem;
+
     font-weight: 600;
+
     border-radius: var(--radius-md);
+
     cursor: pointer;
+
     transition: background-color 0.2s;
+
 }
+
+
 
 .btn-primary:hover {
+
     background-color: var(--accent-green-hover);
+
 }
+
+
 
 .btn-secondary {
+
     background-color: var(--btn-cancel);
+
     color: white;
+
     border: none;
+
     padding: 0.8rem 1.8rem;
+
     font-size: 0.95rem;
+
     font-weight: 600;
+
     border-radius: var(--radius-md);
+
     cursor: pointer;
+
     transition: background-color 0.2s;
+
 }
+
+
 
 .btn-secondary:hover {
+
     background-color: var(--btn-cancel-hover);
+
 }
+
+
 
 /* Estilos de la Modal de Contraseña */
+
 .modal-overlay {
+
     position: fixed;
+
     top: 0;
+
     left: 0;
+
     width: 100%;
+
     height: 100%;
+
     background-color: rgba(0, 0, 0, 0.5);
+
     display: none;
+
     justify-content: center;
+
     align-items: center;
+
     z-index: 1000;
+
 }
+
+
 
 .modal-overlay.active {
+
     display: flex;
+
 }
+
+
 
 .modal-content {
+
     background: var(--card-bg);
+
     padding: 2.5rem;
+
     border-radius: var(--radius-lg);
+
     border: 1px solid var(--border-color);
+
     width: 100%;
+
     max-width: 450px;
+
     box-shadow: var(--shadow);
+
     animation: fadeIn 0.2s ease-in-out;
+
 }
+
+
 
 .modal-header {
+
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
+
     margin-bottom: 1.5rem;
+
 }
+
+
 
 .modal-header h3 {
+
     margin: 0;
+
     color: var(--text-primary);
+
     font-size: 1.3rem;
+
 }
+
+
 
 .btn-close {
+
     background: none;
+
     border: none;
+
     font-size: 1.5rem;
+
     cursor: pointer;
+
     color: var(--text-secondary);
+
 }
+
+
 
 .modal-actions {
+
     display: flex;
+
     justify-content: flex-end;
+
     gap: 1rem;
+
     margin-top: 2rem;
+
 }
+
+
 
 .error-message {
+
     background-color: #fee2e2;
+
     color: #dc2626;
+
     padding: 10px 14px;
+
     border-radius: 8px;
+
     font-size: 0.88rem;
+
     margin-bottom: 15px;
+
     border: 1px solid #fca5a5;
+
     text-align: left;
+
     font-weight: 500;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+
 }
 
-/* Diseño Responsive */
-@media (max-width: 600px) {
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .account-card {
-        padding: 1.5rem;
-    }
+@keyframes fadeIn {
+
+    from { opacity: 0; transform: translateY(-10px); }
+
+    to { opacity: 1; transform: translateY(0); }
+
 }
+
+
+
+/* Diseño Responsive */
+
+@media (max-width: 600px) {
+
+    .form-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+   
+
+    .account-card {
+
+        padding: 1.5rem;
+
+    }
+
+} 

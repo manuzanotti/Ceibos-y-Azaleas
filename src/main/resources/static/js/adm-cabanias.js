@@ -159,14 +159,20 @@ if (formCrearCabana) {
             } else {
                 const errorMsg = await response.text();
                 if (mensajeCrearCabana) {
-                    mensajeCrearCabana.style.color = '#dc2626';
-                    mensajeCrearCabana.style.backgroundColor = '#fee2e2';
+                    mensajeCrearCabana.style.color = '#842029';
+                    mensajeCrearCabana.style.backgroundColor = '#f8d7da';
                     mensajeCrearCabana.textContent = 'No se pudo crear la cabaña: ' + errorMsg;
                     mensajeCrearCabana.style.display = 'block';
                 }
             }
         } catch (error) {
             console.error('Error de red:', error);
+            if (mensajeCrearCabana) {
+                mensajeCrearCabana.style.color = '#842029';
+                mensajeCrearCabana.style.backgroundColor = '#f8d7da';
+                mensajeCrearCabana.textContent = 'Error de conexión con el servidor.';
+                mensajeCrearCabana.style.display = 'block';
+            }
         }
     });
 }
@@ -236,7 +242,6 @@ if (formModificarCabana) {
             });
 
             if (response.ok) {
-                // Mensaje de éxito visual dentro del modal (sin alertas nativas)
                 if (errorModificarCabana) {
                     errorModificarCabana.style.color = '#0f5132';
                     errorModificarCabana.style.backgroundColor = '#d1e7dd';
@@ -247,7 +252,6 @@ if (formModificarCabana) {
                 
                 cargarCabanasAdmin();
                 
-                // Cerramos el modal tras un breve instante para que el usuario lea el mensaje
                 setTimeout(() => {
                     cerrarModalModificarCabana();
                 }, 1200);
@@ -273,8 +277,9 @@ if (formModificarCabana) {
         }
     });
 }
+
 // ==========================================
-// 4. BOTÓN ELIMINAR CABAÑA (Delegado 100% al Backend de forma transaccional)
+// 4. BOTÓN ELIMINAR CABAÑA (Sin confirm() nativo, todo visual en modal)
 // ==========================================
 const btnAdminEliminarCabana = document.getElementById('btnAdminEliminarCabana');
 
@@ -282,14 +287,11 @@ if (btnAdminEliminarCabana) {
     btnAdminEliminarCabana.addEventListener('click', async () => {
         if (!cabanaIdEnEdicion) return;
 
-        // Limpiamos mensajes previos en el modal
         if (errorModificarCabana) {
             errorModificarCabana.style.display = 'none';
         }
 
         try {
-            // Una única petición DELETE al controlador de cabañas. 
-            // El backend se encarga transaccionalmente de borrar las reservas asociadas y la cabaña.
             const response = await fetch(`/api/cabanias/${cabanaIdEnEdicion}`, {
                 method: 'DELETE'
             });
@@ -334,4 +336,5 @@ if (btnAdminEliminarCabana) {
         }
     });
 }
+
 cargarCabanasAdmin();

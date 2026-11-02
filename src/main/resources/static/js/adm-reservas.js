@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Función auxiliar para mostrar mensajes visuales dentro del modal en lugar de alert()
 function mostrarMensajeModal(mensaje, tipo = 'exito') {
-    // Buscamos o creamos un contenedor de alerta dentro del form de modificación
     let alertContainer = document.getElementById('mensajeModalReserva');
     if (!alertContainer) {
         alertContainer = document.createElement('div');
@@ -334,13 +333,10 @@ function configurarEventosReservas() {
         });
     }
 
-    // Botón Eliminar Reserva (DELETE) con mensajes visuales integrados
+    // Botón Eliminar Reserva (DELETE) con mensajes visuales integrados (Sin confirm() nativo)
     if (btnAdminEliminarReserva) {
         btnAdminEliminarReserva.addEventListener('click', async () => {
             if (!reservaIdEnEdicion) return;
-            
-            // Reemplazamos el confirm() nativo por una confirmación visual o la mantenemos limpia dentro del modal
-            if (!window.confirm(`¿Estás seguro de que deseas eliminar permanentemente la reserva #${reservaIdEnEdicion}?`)) return;
 
             try {
                 const response = await fetch(`/api/reservas/${reservaIdEnEdicion}`, { method: 'DELETE' });

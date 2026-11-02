@@ -34,15 +34,59 @@ document.addEventListener('DOMContentLoaded', () => {
     let reservasGlobales = [];
     let reservaSeleccionadaActual = null;
     let timerInterval = null;
+    let puntuacionActual = 5;
 
-    // 3. Cargar las reservas del usuario desde la API
+    // Función auxiliar para mostrar mensajes visuales dentro de las modales en lugar de alert()
+    function mostrarMensajeModalReserva(mensaje, tipo = 'exito') {
+        let alertContainer = document.getElementById('mensajeModalMisReservas');
+        if (!alertContainer) {
+            alertContainer = document.createElement('div');
+            alertContainer.id = 'mensajeModalMisReservas';
+            alertContainer.style.padding = '10px 14px';
+            alertContainer.style.borderRadius = '6px';
+            alertContainer.style.fontSize = '0.9rem';
+            alertContainer.style.marginBottom = '15px';
+            alertContainer.style.fontWeight = '500';
+            
+            const form = document.getElementById('formCrearResena') || document.getElementById('modalDetallesReserva');
+            if (form) form.prepend(alertContainer);
+        }
+
+        if (tipo === 'exito') {
+            alertContainer.style.backgroundColor = '#d1e7dd';
+            alertContainer.style.color = '#0f5132';
+            alertContainer.style.border = '1px solid #badbcc';
+        } else {
+            alertContainer.style.backgroundColor = '#f8d7da';
+            alertContainer.style.color = '#842029';
+            alertContainer.style.border = '1px solid #f5c2c7';
+        }
+
+        alertContainer.textContent = mensaje;
+        alertContainer.style.display = 'block';
+
+        setTimeout(() => {
+            if (alertContainer) alertContainer.style.display = 'none';
+        }, 4000);
+    }
+
+    // 3. Cargar las reservas y las reseñas del usuario desde la API de forma paralela
     async function cargarReservasUsuario() {
         try {
-            const response = await fetch(`/api/reservas/usuario/${usuarioId}`);
+            const [responseReservas, responseResenias] = await Promise.all([
+                fetch(`/api/reservas/usuario/${usuarioId}`),
+                fetch(`/api/resenas/cliente`)
+            ]);
             
-            if (response.ok) {
-                reservasGlobales = await response.json();
+            if (responseReservas.ok) {
+                reservasGlobales = await responseReservas.json();
                 
+                let idsReseniasSet = new Set();
+                if (responseResenias.ok) {
+                    const reseniasUsuario = await responseResenias.json();
+                    idsReseniasSet = new Set(reseniasUsuario.map(r => r.reservaId));
+                }
+
                 if (reservasGlobales.length > 0) {
                     // Ordenar de más reciente a más antigua
                     reservasGlobales.sort((a, b) => b.id - a.id);
@@ -50,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Por defecto, seleccionamos la más reciente para mostrar arriba
                     reservaSeleccionadaActual = reservasGlobales[0];
                     renderizarTarjetaPrincipal(reservaSeleccionadaActual);
-                    renderizarHistorial(reservasGlobales);
+                    renderizarHistorial(reservasGlobales, idsReseniasSet);
                 } else {
                     mostrarEstadoVacio();
                 }
@@ -127,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Renderizar la tabla del historial (limitada a las últimas 5)
-    function renderizarHistorial(reservas) {
+    function renderizarHistorial(reservas, idsReseniasSet = new Set()) {
         const tablaBody = document.getElementById('tablaHistorialBody');
         if (!tablaBody) return;
 
@@ -151,6 +195,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const estilo = obtenerEstilosEstado(estadoTexto);
             const esSeleccionada = reserva.id === reservaSeleccionadaActual.id;
 
+            // Validar si ya tiene reseña o si se puede reseñar
+            const yaReseñada = idsReseniasSet.has(reserva.id);
+            const puedeReseniar = (estadoTexto === 'CONFIRMADA' || estadoTexto === 'FINALIZADA') && !yaReseñada;
+
+            let botonResenaHtml = '';
+            if (yaReseñada) {
+                botonResenaHtml = `<span style="color: #198754; font-size: 0.85rem; font-weight: 600;"><i class="fa-solid fa-check"></i> Reseñada</span>`;
+            } else if (puedeReseniar) {
+                botonResenaHtml = `<button class="btn-secondary-sm" onclick="event.stopPropagation(); abrirModalCrearResena(${reserva.id}, '${cabaniaNombre}')" style="background-color: #2c332e; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;"><i class="fa-solid fa-star" style="color: #ffc107;"></i> Reseñar</button>`;
+            } else {
+                botonResenaHtml = `<span style="color: #9ca3af; font-size: 0.85rem; font-style: italic;">No disponible</span>`;
+            }
+
             htmlTabla += `
                 <tr class="fila-reserva ${esSeleccionada ? 'fila-activa' : ''}" data-id="${reserva.id}" style="cursor: pointer; transition: background-color 0.2s;" title="Haz clic para ver en la tarjeta superior">
                     <td>${resIn || 'N/D'}</td>
@@ -162,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             ${estadoTexto}
                         </span>
                     </td>
+                    <td>${botonResenaHtml}</td>
                 </tr>
             `;
         });
@@ -178,11 +236,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (reservaEncontrada) {
                     reservaSeleccionadaActual = reservaEncontrada;
                     renderizarTarjetaPrincipal(reservaSeleccionadaActual);
-                    renderizarHistorial(reservasGlobales); // Para actualizar la fila activa visualmente
+                    cargarReservasUsuario(); // Recarga para mantener el estado actualizado de las reseñas
                 }
             });
 
-            // Efecto hover sutil por JS o CSS
             fila.addEventListener('mouseenter', () => fila.style.backgroundColor = '#f7f5f0');
             fila.addEventListener('mouseleave', () => {
                 const idReserva = parseInt(fila.getAttribute('data-id'));
@@ -206,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
         if (tablaBody) {
-            tablaBody.innerHTML = `<tr><td colspan="5" class="table-empty">Aún no tienes reservas registradas.</td></tr>`;
+            tablaBody.innerHTML = `<tr><td colspan="6" class="table-empty">Aún no tienes reservas registradas.</td></tr>`;
         }
     }
 
@@ -223,12 +280,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnPagarReserva = document.getElementById('btnPagarReserva');
     const btnCancelarReservaModal = document.getElementById('btnCancelarReservaModal');
 
-// Abrir Modal de Detalles con la reserva seleccionada actualmente en la tarjeta
     if (btnVerDetalles) {
         btnVerDetalles.addEventListener('click', () => {
             if (!reservaSeleccionadaActual) return;
 
-            // 1. Estado actual (primero en el HTML)
             const estadoSpan = document.getElementById('detEstado');
             const estadoActual = reservaSeleccionadaActual.estado || 'PENDIENTE';
             const estilo = obtenerEstilosEstado(estadoActual);
@@ -243,17 +298,14 @@ document.addEventListener('DOMContentLoaded', () => {
             estadoSpan.style.fontSize = '0.85rem';
             estadoSpan.style.display = 'inline-block';
 
-            // 2. Cabaña
             const nombreCabana = reservaSeleccionadaActual.cabania ? reservaSeleccionadaActual.cabania.nombre : (reservaSeleccionadaActual.cabanaNombre || 'Cabaña');
             document.getElementById('detCabaniaNombre').textContent = nombreCabana;
 
-            // 3. Fechas Check-in / Check-out
             const fIn = reservaSeleccionadaActual.checkIn || reservaSeleccionadaActual.fechaCheckIn;
             const fOut = reservaSeleccionadaActual.checkOut || reservaSeleccionadaActual.fechaCheckOut;
             document.getElementById('detCheckIn').textContent = fIn || 'N/D';
             document.getElementById('detCheckOut').textContent = fOut || 'N/D';
 
-            // 4. Huéspedes
             const adultos = reservaSeleccionadaActual.cantidadAdultos || 1;
             const menores = reservaSeleccionadaActual.cantidadMenores || 0;
             let textoHuespedes = `${adultos} Adultos`;
@@ -262,7 +314,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             document.getElementById('detHuespedes').textContent = textoHuespedes;
 
-            // 5. Teléfono
             const telefonoContacto = 
                 reservaSeleccionadaActual.telefono || 
                 (reservaSeleccionadaActual.usuario ? reservaSeleccionadaActual.usuario.telefono : null) || 
@@ -270,10 +321,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Sin teléfono';
             document.getElementById('detTelefono').textContent = telefonoContacto;
 
-            // 6. Precio Total
             document.getElementById('detPrecioTotal').textContent = `$${(reservaSeleccionadaActual.precioTotal || 0).toLocaleString('es-AR')}`;
 
-            // 7. Lógica del Temporizador si está PENDIENTE
             if (estadoActual === 'PENDIENTE') {
                 paymentTimerContainer.style.display = 'flex';
                 modalAccionesPago.style.display = 'flex';
@@ -328,7 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (--tiempoRestante < 0) {
                 clearInterval(timerInterval);
-                alert('El tiempo para abonar ha expirado. La reserva ha sido cancelada.');
+                mostrarMensajeModalReserva('El tiempo para abonar ha expirado. La reserva ha sido cancelada.', 'error');
                 actualizarEstadoReserva('CANCELADA');
             }
         }, 1000);
@@ -342,13 +391,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnCancelarReservaModal) {
         btnCancelarReservaModal.addEventListener('click', () => {
-            if (confirm('¿Estás seguro de que deseas cancelar esta reserva?')) {
-                actualizarEstadoReserva('CANCELADA');
-            }
+            actualizarEstadoReserva('CANCELADA');
         });
     }
 
- async function actualizarEstadoReserva(nuevoEstado) {
+    async function actualizarEstadoReserva(nuevoEstado) {
         try {
             const response = await fetch(`/api/reservas/${reservaSeleccionadaActual.id}/estado?estado=${nuevoEstado}`, {
                 method: 'PATCH',
@@ -356,24 +403,121 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                alert(`Reserva actualizada a estado: ${nuevoEstado}`);
+                mostrarMensajeModalReserva(`Reserva actualizada a estado: ${nuevoEstado}`, 'exito');
                 
-                // Limpiar el temporizador guardado para esta reserva si ya fue pagada o cancelada
                 const storageKey = `timer_expira_${reservaSeleccionadaActual.id}`;
                 sessionStorage.removeItem(storageKey);
                 
                 if (timerInterval) clearInterval(timerInterval);
 
-                cerrarModalDetalles();
-                cargarReservasUsuario(); // Recargar datos en pantalla
+                setTimeout(() => {
+                    cerrarModalDetalles();
+                    cargarReservasUsuario(); 
+                }, 1000);
             } else {
                 const err = await response.text();
-                alert('No se pudo actualizar el estado: ' + err);
+                mostrarMensajeModalReserva('No se pudo actualizar el estado: ' + err, 'error');
             }
         } catch (error) {
             console.error('Error de red:', error);
-            alert('Error de conexión con el servidor.');
+            mostrarMensajeModalReserva('Error de conexión con el servidor.', 'error');
         }
+    }
+
+    // ==========================================
+    // LÓGICA DE LA MODAL DE CREAR RESEÑA
+    // ==========================================
+    const modalCrearResena = document.getElementById('modalCrearResena');
+    const btnCloseModalResena = document.getElementById('btnCloseModalResena');
+    const btnCancelarResena = document.getElementById('btnCancelarResena');
+    const formCrearResena = document.getElementById('formCrearResena');
+    const stars = document.querySelectorAll('#starContainer i');
+
+    window.abrirModalCrearResena = function(reservaId, cabaniaNombre) {
+        const inputId = document.getElementById('inputReservaId');
+        const spanCabania = document.getElementById('modalCabaniaNombre');
+        const txtComentario = document.getElementById('inputComentario');
+
+        if (inputId) inputId.value = reservaId;
+        if (spanCabania) spanCabania.textContent = cabaniaNombre;
+        if (txtComentario) txtComentario.value = '';
+
+        seleccionarEstrellas(5);
+        if (modalCrearResena) modalCrearResena.classList.add('active');
+    };
+
+    const cerrarModalResena = () => {
+        if (modalCrearResena) modalCrearResena.classList.remove('active');
+    };
+
+    if (btnCloseModalResena) btnCloseModalResena.addEventListener('click', cerrarModalResena);
+    if (btnCancelarResena) btnCancelarResena.addEventListener('click', cerrarModalResena);
+
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            const val = parseInt(star.getAttribute('data-value'));
+            seleccionarEstrellas(val);
+        });
+    });
+
+    function seleccionarEstrellas(valor) {
+        puntuacionActual = valor;
+        const inputPuntuacion = document.getElementById('inputPuntuacion');
+        if (inputPuntuacion) inputPuntuacion.value = valor;
+
+        stars.forEach(star => {
+            const starVal = parseInt(star.getAttribute('data-value'));
+            if (starVal <= valor) {
+                star.classList.remove('fa-regular');
+                star.classList.add('fa-solid');
+            } else {
+                star.classList.remove('fa-solid');
+                star.classList.add('fa-regular');
+            }
+        });
+    }
+
+    if (formCrearResena) {
+        formCrearResena.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const reservaId = document.getElementById('inputReservaId').value;
+            const comentario = document.getElementById('inputComentario').value;
+            const cabaniaNombre = document.getElementById('modalCabaniaNombre').textContent;
+            const reservaObj = reservasGlobales.find(r => r.id == reservaId);
+
+            const fechasEstadia = reservaObj ? `${reservaObj.checkIn || reservaObj.fechaCheckIn} al ${reservaObj.checkOut || reservaObj.fechaCheckOut}` : 'N/D';
+
+            const nuevaResena = {
+                cabaniaNombre: cabaniaNombre,
+                huespedNombre: usuarioNombre || 'Huésped',
+                fechasEstadia: fechasEstadia,
+                puntuacion: puntuacionActual,
+                comentario: comentario
+            };
+
+            try {
+                const response = await fetch(`/api/resenas?reservaId=${reservaId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(nuevaResena)
+                });
+
+                if (!response.ok) {
+                    const errorMsg = await response.text();
+                    throw new Error(errorMsg || 'No se pudo guardar la reseña.');
+                }
+
+                mostrarMensajeModalReserva('¡Reseña enviada con éxito!', 'exito');
+                setTimeout(() => {
+                    cerrarModalResena();
+                    cargarReservasUsuario(); 
+                }, 1000);
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarMensajeModalReserva('Error al enviar la reseña: ' + error.message, 'error');
+            }
+        });
     }
 
     // Inicializar

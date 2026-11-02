@@ -8,8 +8,44 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-   
+    // --------------------------------------------------
+    // Función auxiliar para mostrar mensajes visuales dentro del modal en lugar de alert()
+    // --------------------------------------------------
+    function mostrarMensajeModalReserva(mensaje, tipo = 'exito') {
+        let alertContainer = document.getElementById('mensajeModalDashboardReserva');
+        if (!alertContainer) {
+            alertContainer = document.createElement('div');
+            alertContainer.id = 'mensajeModalDashboardReserva';
+            alertContainer.style.padding = '10px 14px';
+            alertContainer.style.borderRadius = '6px';
+            alertContainer.style.fontSize = '0.9rem';
+            alertContainer.style.marginBottom = '15px';
+            alertContainer.style.fontWeight = '500';
+            
+            const form = document.getElementById('formReserva');
+            if (form) form.prepend(alertContainer);
+        }
 
+        if (tipo === 'exito') {
+            alertContainer.style.backgroundColor = '#d1e7dd';
+            alertContainer.style.color = '#0f5132';
+            alertContainer.style.border = '1px solid #badbcc';
+        } else {
+            alertContainer.style.backgroundColor = '#f8d7da';
+            alertContainer.style.color = '#842029';
+            alertContainer.style.border = '1px solid #f5c2c7';
+        }
+
+        alertContainer.textContent = mensaje;
+        alertContainer.style.display = 'block';
+
+        // Ocultar automáticamente a los 4 segundos si no es redirección exitosa
+        if (tipo !== 'exito') {
+            setTimeout(() => {
+                if (alertContainer) alertContainer.style.display = 'none';
+            }, 4000);
+        }
+    }
 
     // --------------------------------------------------
     // LÓGICA DE LA MODAL DE RESERVAS (Específica del Dashboard)
@@ -46,6 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = e.target.closest('.cabana-card');
             const nombre = card.querySelector('h3').textContent;
             const info = card.querySelector('.card-info').textContent;
+
+            // Limpiar alertas visuales previas al abrir
+            const alertContainer = document.getElementById('mensajeModalDashboardReserva');
+            if (alertContainer) alertContainer.style.display = 'none';
 
             if (modalCabanaNombre) modalCabanaNombre.textContent = nombre;
             if (modalCabanaCapacidad) modalCabanaCapacidad.textContent = info;
@@ -106,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fechaCheckOut.addEventListener('change', calcularTotal);
     }
 
-// Envío real de la reserva al Backend
+    // Envío real de la reserva al Backend
     const formReserva = document.getElementById('formReserva');
     if (formReserva) {
         formReserva.addEventListener('submit', async (e) => {
@@ -115,8 +155,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // 1. Obtener datos de la sesión y del formulario
             const usuarioId = sessionStorage.getItem('usuarioId');
             if (!usuarioId) {
-                alert('Sesión expirada. Por favor, vuelve a iniciar sesión.');
-                window.location.href = 'login.html';
+                mostrarMensajeModalReserva('Sesión expirada. Redirigiendo al login...', 'error');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
                 return;
             }
 
@@ -124,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const nombreCabana = modalCabanaNombre ? modalCabanaNombre.textContent.trim() : '';
             let cabaniaId = 1; // ID por defecto
             if (nombreCabana.includes('Azaleas')) {
-                cabaniaId = 2; // Ajusta según los IDs de tus cabañas en la BD
+                cabaniaId = 2;
             }
 
             // Extraer precio total numérico limpio
@@ -155,19 +197,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     const reservaCreada = await response.json();
-                    alert('¡Reserva creada con éxito! Estado: PENDIENTE');
-                    cerrarModal();
+                    mostrarMensajeModalReserva('¡Reserva creada con éxito! Estado: PENDIENTE. Redirigiendo...', 'exito');
                     
-                    // 3. Redirigir a la página de Mis Reservas como pediste
-                    window.location.href = 'mis-reservas.html';
+                    // 3. Redirigir a la página de Mis Reservas tras un breve instante
+                    setTimeout(() => {
+                        cerrarModal();
+                        window.location.href = 'mis-reservas.html';
+                    }, 1200);
                 } else {
                     // Si el backend rechaza por capacidad o solapamiento de fechas
                     const errorMsg = await response.text();
-                    alert('No se pudo completar la reserva: ' + errorMsg);
+                    mostrarMensajeModalReserva('No se pudo completar la reserva: ' + errorMsg, 'error');
                 }
             } catch (error) {
                 console.error('Error de red:', error);
-                alert('Error de conexión con el servidor.');
+                mostrarMensajeModalReserva('Error de conexión con el servidor.', 'error');
             }
         });
     }
