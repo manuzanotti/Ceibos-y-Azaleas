@@ -1,5 +1,6 @@
 package com.ceibosyazaleas.service;
 
+import com.ceibosyazaleas.dto.ActualizarReservaDto;
 import com.ceibosyazaleas.dto.ReservaDto;
 import com.ceibosyazaleas.model.Cabania;
 import com.ceibosyazaleas.model.EstadoReserva;
@@ -8,6 +9,9 @@ import com.ceibosyazaleas.model.Usuario;
 import com.ceibosyazaleas.repository.CabaniaRepository;
 import com.ceibosyazaleas.repository.ReservaRepository;
 import com.ceibosyazaleas.repository.UsuarioRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -74,9 +78,15 @@ public class ReservaService {
         return reservaRepository.save(reserva);
     }
 
+
+
+
     public List<Reserva> obtenerReservasPorUsuario(Long usuarioId) {
         return reservaRepository.findByUsuarioId(usuarioId);
     }
+
+
+
 
 
     public Reserva cancelarReserva(Long id, EstadoReserva estado){
@@ -95,6 +105,44 @@ public class ReservaService {
 
 
 
+    @Transactional
+    public Reserva modificarReserva(Long id, ActualizarReservaDto dto) {
+        Reserva reservaExistente = reservaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No se encontró la reserva con ID: " + id));
+
+        reservaExistente.setCheckIn(dto.getCheckIn());
+        reservaExistente.setCheckOut(dto.getCheckOut());
+        
+        // Convertimos el String del estado al Enum correspondiente
+        if (dto.getEstado() != null) {
+            reservaExistente.setEstado(EstadoReserva.valueOf(dto.getEstado()));
+        }
+        
+        reservaExistente.setCantidadAdultos(dto.getCantidadAdultos());
+        reservaExistente.setCantidadMenores(dto.getCantidadMenores());
+        reservaExistente.setPrecioTotal(dto.getPrecioTotal());
+        reservaExistente.setTelefono(dto.getTelefono());
+
+        // Buscamos la cabaña de forma segura por su ID
+        if (dto.getCabaniaId() != null) {
+            Cabania cabania = cabaniaRepository.findById(dto.getCabaniaId())
+                    .orElseThrow(() -> new RuntimeException("Cabaña no encontrada"));
+            reservaExistente.setCabania(cabania);
+        }
+
+        return reservaRepository.save(reservaExistente);
+    }
 
 
+
+    // Eliminar reserva
+    @Transactional
+    public void eliminarReserva(Long id) {
+        if (!reservaRepository.existsById(id)) {
+            throw new RuntimeException("No se encontró la reserva con ID: " + id);
+        }
+        reservaRepository.deleteById(id);
+    }
 }
+
+    

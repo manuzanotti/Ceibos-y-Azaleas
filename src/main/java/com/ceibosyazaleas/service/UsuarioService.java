@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ceibosyazaleas.model.TipoDeUsuario;
 import com.ceibosyazaleas.model.Usuario;
+import com.ceibosyazaleas.repository.ReservaRepository;
 import com.ceibosyazaleas.repository.UsuarioRepository;
 
 import jakarta.transaction.Transactional;
@@ -16,9 +17,11 @@ import jakarta.transaction.Transactional;
 @Service 
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
+    private final ReservaRepository reservaRepository;
 
-    public UsuarioService(UsuarioRepository usuarioRepository){
+    public UsuarioService(UsuarioRepository usuarioRepository, ReservaRepository reservaRepository){
         this.usuarioRepository = usuarioRepository;
+        this.reservaRepository = reservaRepository;
     }
 
     public Usuario validarUsuario(String email, String password){
@@ -71,14 +74,6 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
     
-    @Transactional
-    public void eliminarUsuario(Long id){
-        usuarioRepository.findById(id)
-        .orElseThrow(()-> new RuntimeException("El usuario no existe"));
-        
-       usuarioRepository.deleteById(id);
-    }
-
 
     public Optional<Usuario> obtenerUsuarioPorId(Long id){
         
@@ -98,6 +93,10 @@ public class UsuarioService {
         usuarioActualizado.setDni(usuario.getDni());
         usuarioActualizado.setTelefono(usuario.getTelefono());
         usuarioActualizado.setFechaNacimiento(usuario.getFechaNacimiento());
+
+        //Estos datos son para el menu de adm
+        usuarioActualizado.setTipoDeUsuario(usuario.getTipoDeUsuario());
+        usuarioActualizado.setActivo(usuario.isActivo());
 
         return usuarioRepository.save(usuarioActualizado);
     }
@@ -139,5 +138,16 @@ public class UsuarioService {
         return usuarioRepository.save(bajaUsuario);
     }
 
+
+
+    //Metodo para eliminar un usuario del sistema.
+    @Transactional
+    public void eliminarUsuarioYReservas(Long usuarioId) {
+    // 1. Eliminamos primero las reservas pertenecientes al usuario
+    reservaRepository.deleteByUsuarioId(usuarioId);
+
+    // 2. Eliminamos al usuario
+    usuarioRepository.deleteById(usuarioId);
+}
 
 }
