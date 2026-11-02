@@ -112,7 +112,7 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> elimiarUsuarioPorId(@PathVariable Long id){
         try {
-            usuarioService.eliminarUsuario(id);
+            usuarioService.eliminarUsuarioYReservas(id);
             return ResponseEntity.status(HttpStatus.OK).body("Usuario eliminado con éxito!");    
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage()); 
