@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!featuredCard || !reserva) return;
 
         const fIn = reserva.checkIn || reserva.fechaCheckIn;
-        const fOut = reserva.chekOut || reserva.fechaCheckOut;
+        const fOut = reserva.checkOut || reserva.fechaCheckOut;
         const estadoActual = reserva.estado || 'PENDIENTE';
         const estilos = obtenerEstilosEstado(estadoActual);
         const nombreCabana = reserva.cabania ? reserva.cabania.nombre : (reserva.cabanaNombre || 'Cabaña');
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ultimasCinco.forEach((reserva) => {
             const cabaniaNombre = reserva.cabania ? reserva.cabania.nombre : (reserva.cabanaNombre || 'Cabaña');
             const resIn = reserva.checkIn || reserva.fechaCheckIn;
-            const resOut = reserva.chekOut || reserva.fechaCheckOut;
+            const resOut = reserva.checkOut || reserva.fechaCheckOut;
             
             let noches = 1;
             if (resIn && resOut) {
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 3. Fechas Check-in / Check-out
             const fIn = reservaSeleccionadaActual.checkIn || reservaSeleccionadaActual.fechaCheckIn;
-            const fOut = reservaSeleccionadaActual.chekOut || reservaSeleccionadaActual.fechaCheckOut;
+            const fOut = reservaSeleccionadaActual.checkOut || reservaSeleccionadaActual.fechaCheckOut;
             document.getElementById('detCheckIn').textContent = fIn || 'N/D';
             document.getElementById('detCheckOut').textContent = fOut || 'N/D';
 

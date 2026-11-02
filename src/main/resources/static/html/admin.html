@@ -338,7 +338,7 @@
     <div class="modal-overlay" id="modalAdminModificarUsuario">
         <div class="modal-content modal-form-container">
             <div class="modal-header">
-                <h3>Administrar Usuario (<span id="modUserDetIdTitulo">0</span>)</h3>
+                <h3>Administrar Usuario (ID #<span id="modUserDetIdTitulo">0</span>)</h3>
                 <button class="btn-close" id="btnCloseModalUsuario">&times;</button>
             </div>
             <form id="formModificarUsuario" class="modal-form-body">
@@ -357,7 +357,7 @@
                 </div>
                 <div class="form-row"><div class="form-group" style="flex: 1;"><label for="modUserEstado">Estado de cuenta</label><select id="modUserEstado" required><option value="Habilitada">Habilitada</option><option value="Inhabilitada">Inhabilitada</option></select></div></div>
                 <div class="modal-actions-split">
-                    <button type="button" class="btn-danger" id="btnAdminDarBajaUsuario"><i class="fa-solid fa-trash"></i> Dar de baja usuario</button>
+                    <button type="button" class="btn-danger" id="btnAdminDarBajaUsuario"><i class="fa-solid fa-trash"></i>Eliminar usuario</button>
                     <button type="submit" class="btn-primary" style="flex: unset; width: auto; min-width: 160px;">Guardar Cambios</button>
                 </div>
             </form>
@@ -365,5 +365,10 @@
     </div>
 
     <script src="../js/admin.js"></script>
+    <script src="../js/adm-usuarios.js"></script>
+    <script src="../js/adm-cabanias.js"></script>
+    <script src="../js/adm-reservas.js"></script>
+    <script src="../js/adm-estadisticas.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

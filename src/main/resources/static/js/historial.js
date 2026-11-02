@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 historialGlobal.forEach(reserva => {
                     const cabaniaNombre = reserva.cabania ? reserva.cabania.nombre : (reserva.cabanaNombre || 'Cabaña');
                     const d1 = new Date(reserva.checkIn);
-                    const d2 = new Date(reserva.chekOut);
+                    const d2 = new Date(reserva.checkOut);
                     const noches = Math.max(1, Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)));
                     
                     const estadoTexto = reserva.estado || 'CONFIRMADA';
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <td>#${reserva.id}</td>
                             <td><strong>${cabaniaNombre}</strong></td>
                             <td>${reserva.checkIn}</td>
-                            <td>${reserva.chekOut}</td>
+                            <td>${reserva.checkOut}</td>
                             <td>${noches}</td>
                             <td>$${(reserva.precioTotal || 0).toLocaleString('es-AR')}</td>
                             <td>
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         estadoSpan.style.display = 'inline-block';
 
         const fIn = reserva.checkIn || reserva.fechaCheckIn;
-        const fOut = reserva.chekOut || reserva.fechaCheckOut;
+        const fOut = reserva.checkOut || reserva.fechaCheckOut;
         document.getElementById('detCheckIn').textContent = fIn || 'N/D';
         document.getElementById('detCheckOut').textContent = fOut || 'N/D';
 
